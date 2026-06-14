@@ -1,0 +1,6 @@
+{
+  "name": "Schulte Table",
+  "description": "A premium, distraction-free brain training app to improve peripheral vision, rapid focus, and mental processing speed.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
