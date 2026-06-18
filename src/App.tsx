@@ -6,7 +6,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  Trophy,
   Compass,
   Play,
   RotateCcw,
@@ -36,7 +35,6 @@ import { GameDifficulty, GameMode, GameTheme, GameCell, UserSettings, GameSessio
 import { ApiClient } from './lib/api.js';
 import { synth } from './lib/audio.js';
 import { ToastProvider, useToast } from './components/Notifications.js';
-import LeaderboardScreen from './components/LeaderboardScreen.js';
 
 // Constant label mappings for letters and roman modes
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -60,7 +58,6 @@ function SchulteAppContent() {
 
   // Screen routing states: 'home' | 'game' | 'results' | 'history' | 'settings' | 'auth'
   const [currentScreen, setCurrentScreen] = useState<'home' | 'game' | 'results' | 'history' | 'settings' | 'auth'>('home');
-  const [leaderboardActive, setLeaderboardActive] = useState(false);
 
   // Authentication states
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
@@ -159,130 +156,130 @@ function SchulteAppContent() {
   const themeStyles = {
     slate: {
       dark: {
-        bg: 'bg-slate-950 text-slate-100 selection:bg-indigo-500/30',
-        card: 'bg-slate-900 border border-slate-800 shadow-xl',
-        border: 'border-slate-800',
+        bg: 'bg-gradient-to-br from-[#0a0f1d] via-[#121829] to-[#0a0f1d] text-slate-100 selection:bg-indigo-500/30',
+        card: 'bg-slate-900/90 border border-slate-800/80 shadow-[0_20px_50px_rgba(0,0,0,0.35)] backdrop-blur-xl hover:border-indigo-500/20 transition-all duration-300 rounded-3xl',
+        border: 'border-slate-800/90',
         textMuted: 'text-slate-400',
-        textTitle: 'text-white',
+        textTitle: 'text-white font-extrabold',
         textAccent: 'text-indigo-400',
-        btnAccent: 'bg-indigo-600 hover:bg-indigo-505 text-white shadow-lg shadow-indigo-600/10 focus:ring-2 focus:ring-indigo-500',
-        btnSecondary: 'bg-slate-800 hover:bg-slate-700 text-slate-250 border border-slate-700/60 focus:ring-2 focus:ring-slate-700',
-        gridCell: 'bg-slate-900 text-slate-100 hover:bg-slate-800 border border-slate-800/80 active:bg-slate-750 shadow-sm',
-        navBtn: 'text-slate-400 hover:text-white',
-        navBtnActive: 'text-indigo-405 bg-slate-900 border border-slate-800',
-        subCard: 'bg-slate-950/40 border border-slate-805/60',
-        formInput: 'bg-slate-950 border border-slate-850 focus:ring-indigo-650 text-white'
+        btnAccent: 'bg-gradient-to-r from-indigo-550 via-purple-550 to-indigo-550 bg-[size:200%_auto] hover:bg-[right_center] text-white shadow-lg shadow-indigo-600/15 focus:ring-2 focus:ring-indigo-500 hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
+        btnSecondary: 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/65 focus:ring-2 focus:ring-slate-700 hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-200',
+        gridCell: 'bg-gradient-to-b from-slate-900 to-slate-950 text-slate-100 hover:from-slate-800 hover:to-slate-900 border border-slate-800/80 hover:border-indigo-500/30 active:scale-95 shadow-md active:bg-slate-800 transition-all duration-150 relative overflow-hidden group hover:shadow-[0_0_15px_rgba(99,102,241,0.15)]',
+        navBtn: 'text-slate-400 hover:text-white transition-colors',
+        navBtnActive: 'text-indigo-400 bg-indigo-500/10 border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.1)]',
+        subCard: 'bg-slate-950/45 border border-slate-850/70 hover:border-slate-800/80 hover:bg-slate-950/60 transition-all duration-200',
+        formInput: 'bg-slate-955 border border-slate-800 focus:border-indigo-505 focus:ring-1 focus:ring-indigo-505 text-white'
       },
       light: {
-        bg: 'bg-slate-50 text-slate-900 selection:bg-indigo-600/20',
-        card: 'bg-white border border-slate-200 shadow-lg',
-        border: 'border-slate-200',
-        textMuted: 'text-slate-500',
-        textTitle: 'text-slate-900',
-        textAccent: 'text-indigo-600',
-        btnAccent: 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/10 focus:ring-2 focus:ring-indigo-505',
-        btnSecondary: 'bg-slate-100 hover:bg-slate-200 text-slate-705 border border-slate-200 focus:ring-2 focus:ring-slate-300',
-        gridCell: 'bg-white text-slate-800 hover:bg-slate-100 border border-slate-200 active:bg-slate-200 shadow-sm',
-        navBtn: 'text-slate-500 hover:text-slate-900',
-        navBtnActive: 'text-indigo-600 bg-indigo-50 border border-indigo-150',
-        subCard: 'bg-slate-100/60 border border-slate-200/80',
-        formInput: 'bg-slate-50 border border-slate-250 focus:ring-indigo-500 text-slate-905'
+        bg: 'bg-gradient-to-br from-[#FFFDF1] via-white to-[#FFFDF1] text-slate-900 selection:bg-[#59C749]/20',
+        card: 'bg-white border border-slate-200/95 shadow-[0_20px_40px_rgba(89,199,73,0.025)] backdrop-blur-lg hover:border-[#59C749]/15 transition-all duration-300 rounded-3xl',
+        border: 'border-slate-150',
+        textMuted: 'text-slate-550',
+        textTitle: 'text-slate-900 font-extrabold',
+        textAccent: 'text-[#59C749]',
+        btnAccent: 'bg-[#59C749] hover:bg-[#4ab53b] text-white shadow-md shadow-[#59C749]/15 focus:ring-2 focus:ring-[#59C749] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
+        btnSecondary: 'bg-slate-100/95 hover:bg-slate-200 text-slate-705 border border-slate-200 focus:ring-2 focus:ring-slate-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-200',
+        gridCell: 'bg-gradient-to-b from-white to-[#FFFDF1]/30 text-slate-800 hover:from-white hover:to-[#FFFDF1] border border-slate-200 hover:border-[#59C749]/40 active:scale-95 shadow-sm active:bg-slate-100 transition-all duration-150 hover:shadow-[#59C749]/5',
+        navBtn: 'text-slate-500 hover:text-slate-900 transition-colors',
+        navBtnActive: 'text-white bg-[#59C749] border border-[#59C749]/60 shadow-sm',
+        subCard: 'bg-white/80 border border-slate-150/70 hover:border-slate-200 hover:bg-[#FFFDF1]/50 transition-all duration-200',
+        formInput: 'bg-white border border-slate-250 focus:border-[#59C749] focus:ring-1 focus:ring-[#59C749] text-slate-900 font-medium'
       }
     },
     nord: {
       dark: {
-        bg: 'bg-slate-900 text-[#d8dee9] selection:bg-[#88c0d0]/30',
-        card: 'bg-[#2e3440] border border-[#3b4252] shadow-xl',
-        border: 'border-[#3b4252]',
+        bg: 'bg-gradient-to-br from-[#1e222b] via-[#2e3440] to-[#1e222b] text-[#d8dee9] selection:bg-[#88c0d0]/30',
+        card: 'bg-[#2e3440]/95 border border-[#3b4252]/90 shadow-[0_20px_50px_rgba(46,52,64,0.3)] backdrop-blur-xl hover:border-[#88c0d0]/20 transition-all duration-300 rounded-3xl',
+        border: 'border-[#3b4252]/90',
         textMuted: 'text-[#9ca3af]',
-        textTitle: 'text-[#eceff4]',
+        textTitle: 'text-[#eceff4] font-extrabold',
         textAccent: 'text-[#88c0d0]',
-        btnAccent: 'bg-[#88c0d0] hover:bg-[#8fbcbb] text-[#2e3440] font-semibold focus:ring-2 focus:ring-[#88c0d0]',
-        btnSecondary: 'bg-[#3b4252] hover:bg-[#434c5e] text-[#e5e9f0] border border-[#4c566a] focus:ring-2 focus:ring-[#4c566a]',
-        gridCell: 'bg-[#2e3440] text-[#e5e9f0] hover:bg-[#3b4252] border border-[#3b4252]/85 active:bg-[#434c5e] shadow-sm',
-        navBtn: 'text-[#9ca3af] hover:text-[#eceff4]',
-        navBtnActive: 'text-[#88c0d0] bg-[#2e3440] border border-[#3b4252]',
-        subCard: 'bg-[#3b4252]/40 border border-[#4c566a]/60',
-        formInput: 'bg-[#2e3440] border border-[#4c566a] focus:ring-[#88c0d0] text-[#eceff4]'
+        btnAccent: 'bg-gradient-to-r from-[#88c0d0] to-[#8fbcbb] text-[#2e3440] font-bold shadow-lg shadow-[#88c0d0]/10 focus:ring-2 focus:ring-[#88c0d0] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
+        btnSecondary: 'bg-[#3b4252]/95 hover:bg-[#434c5e] text-[#e5e9f0] border border-[#4c566a]/70 focus:ring-2 focus:ring-[#4c566a] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-200',
+        gridCell: 'bg-gradient-to-b from-[#2e3440] to-[#242933] text-[#e5e9f0] hover:from-[#3b4252] hover:to-[#2e3440] border border-[#3b4252]/85 hover:border-[#1abc9c]/30 active:scale-95 shadow-md active:bg-[#3b4252] transition-all duration-150 relative overflow-hidden group',
+        navBtn: 'text-[#9ca3af] hover:text-[#eceff4] transition-colors',
+        navBtnActive: 'text-[#88c0d0] bg-[#88c0d0]/10 border border-[#88c0d0]/30 shadow-sm',
+        subCard: 'bg-[#3b4252]/50 border border-[#4c566a]/80 hover:border-[#4c566a] hover:bg-[#3b4252]/75 transition-all duration-200',
+        formInput: 'bg-[#242933] border border-[#4c566a] focus:ring-[#88c0d0] focus:border-[#88c0d0] text-[#eceff4]'
       },
       light: {
-        bg: 'bg-[#f8f9fb] text-[#2e3440] selection:bg-[#88c0d0]/40',
-        card: 'bg-white border border-[#e5e9f0] shadow-md',
+        bg: 'bg-gradient-to-br from-[#FFFDF1] via-white to-[#FFFDF1] text-[#2e3440] selection:bg-[#59C749]/40',
+        card: 'bg-white border border-[#FFFDF1] shadow-[0_20px_40px_rgba(89,199,73,0.03)] backdrop-blur-lg hover:border-[#59C749]/20 transition-all duration-300 rounded-3xl',
         border: 'border-[#e5e9f0]',
         textMuted: 'text-[#4c566a]',
-        textTitle: 'text-[#2e3440]',
-        textAccent: 'text-[#5e81ac]',
-        btnAccent: 'bg-[#5e81ac] hover:bg-[#81a1c1] text-white font-semibold focus:ring-2 focus:ring-[#5e81ac]',
-        btnSecondary: 'bg-[#e5e9f0] hover:bg-[#d8dee9] text-[#4c566a] border border-[#d8dee9] focus:ring-2 focus:ring-[#88c0d0]',
-        gridCell: 'bg-white text-[#2e3440] hover:bg-[#eceff4] border border-[#e5e9f0] active:bg-[#d8dee9] shadow-sm',
-        navBtn: 'text-[#4c566a] hover:text-[#2e3440]',
-        navBtnActive: 'text-[#5e81ac] bg-[#eceff4] border border-[#e5e9f0]',
-        subCard: 'bg-[#eceff4]/50 border border-[#e5e9f0]/80',
-        formInput: 'bg-[#f8f9fb] border border-[#d8dee9] focus:ring-[#5e81ac] text-[#2e3440]'
+        textTitle: 'text-[#2e3440] font-bold',
+        textAccent: 'text-[#59C749]',
+        btnAccent: 'bg-[#59C749] hover:bg-[#4ab53b] text-white font-bold shadow-md shadow-[#59C749]/15 focus:ring-2 focus:ring-[#59C749] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
+        btnSecondary: 'bg-[#e5e9f0]/90 hover:bg-[#d8dee9] text-[#4c566a] border border-[#d8dee9] focus:ring-2 focus:ring-[#59C749] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-200',
+        gridCell: 'bg-gradient-to-b from-white to-[#FFFDF1] text-[#2e3440] hover:from-[#eceff4] hover:to-[#e5e9f0] border border-[#e5e9f0] hover:border-[#59C749]/50 active:scale-95 shadow-sm active:bg-[#eceff4] transition-all duration-150',
+        navBtn: 'text-[#4c566a] hover:text-[#2e3440] transition-colors',
+        navBtnActive: 'text-white bg-[#59C749] border border-[#59C749]/30 shadow-sm',
+        subCard: 'bg-[#eceff4]/60 border border-[#e5e9f0]/80 hover:border-[#e5e9f0] hover:bg-[#eceff4]/80 transition-all duration-200',
+        formInput: 'bg-white border border-[#d8dee9] focus:ring-[#59C749] text-[#2e3440]'
       }
     },
     cyber: {
       dark: {
         bg: 'bg-black text-[#39ff14] selection:bg-[#ff007f]/40',
-        card: 'bg-[#0a0a0a] border border-[#39ff14]/30 shadow-neon shadow-red-500/5',
-        border: 'border-[#39ff14]/20',
-        textMuted: 'text-zinc-500',
-        textTitle: 'text-[#39ff14]',
+        card: 'bg-[#0f0f0f]/95 border-2 border-[#39ff14] shadow-[0_0_20px_rgba(57,255,20,0.15)] hover:shadow-[0_0_30px_rgba(57,255,20,0.25)] hover:border-[#ff007f]/50 transition-all duration-300 rounded-2xl',
+        border: 'border-[#39ff14]/30',
+        textMuted: 'text-zinc-500 font-mono text-[11px]',
+        textTitle: 'text-[#39ff14] font-black uppercase tracking-wider',
         textAccent: 'text-[#ff007f]',
-        btnAccent: 'bg-[#ff007f] hover:bg-[#ff00a0] text-black font-extrabold shadow-lg focus:ring-2 focus:ring-[#ff007f] uppercase tracking-wide',
-        btnSecondary: 'bg-[#151515] hover:bg-[#252525] text-[#39ff14]/90 border border-[#39ff14]/30 focus:ring-2 focus:ring-[#39ff14]',
-        gridCell: 'bg-black text-[#39ff14]/90 hover:bg-[#0f0f0f] border border-[#39ff14]/20 active:bg-zinc-900 shadow-sm',
-        navBtn: 'text-[#39ff14]/60 hover:text-[#39ff14]',
-        navBtnActive: 'text-[#ff007f] bg-[#0a0a0a] border border-[#39ff14]/30',
-        subCard: 'bg-black/80 border border-[#39ff14]/20',
-        formInput: 'bg-black border border-[#39ff14]/20 focus:ring-[#39ff14] text-[#39ff14]'
+        btnAccent: 'bg-gradient-to-r from-[#ff007f] via-[#ec4899] to-[#ff007f] hover:brightness-110 text-black font-extrabold shadow-lg focus:ring-2 focus:ring-[#ff007f] uppercase tracking-widest hover:scale-103 active:scale-97 transition-all duration-200 border-2 border-black',
+        btnSecondary: 'bg-[#151515] hover:bg-[#252525] text-[#39ff14] border-2 border-[#39ff14]/70 focus:ring-2 focus:ring-[#39ff14] uppercase tracking-wide font-extrabold hover:translate-y-[-1px] active:translate-y-0 transition-all duration-200',
+        gridCell: 'bg-black text-[#39ff14] border-2 border-[#39ff14]/35 hover:border-[#ff007f] hover:text-white hover:bg-[#0c0c0c] shadow-[0_0_8px_rgba(57,255,20,0.06)] active:scale-95 hover:shadow-[0_0_15px_rgba(255,0,127,0.25)] transition-all duration-120 font-black',
+        navBtn: 'text-[#39ff14]/60 hover:text-[#39ff14] transition-colors',
+        navBtnActive: 'text-black bg-[#39ff14] border-2 border-[#39ff14] font-black',
+        subCard: 'bg-black border border-[#39ff14]/30 hover:border-[#39ff14] hover:bg-[#070707] transition-all duration-200',
+        formInput: 'bg-black border-2 border-[#39ff14]/50 focus:border-[#39ff14] text-[#39ff14] font-mono'
       },
       light: {
-        bg: 'bg-zinc-55 text-black selection:bg-cyan-500/35 border-zinc-200',
-        card: 'bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]',
+        bg: 'bg-[#FFFDF1] text-black selection:bg-[#59C749]/35 border-zinc-200',
+        card: 'bg-white border-3 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 rounded-2xl',
         border: 'border-black',
-        textMuted: 'text-zinc-650',
-        textTitle: 'text-black font-black',
-        textAccent: 'text-purple-700',
-        btnAccent: 'bg-yellow-405 hover:bg-yellow-400 text-black font-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase tracking-wider',
-        btnSecondary: 'bg-white hover:bg-zinc-100 text-black border-2 border-black font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]',
-        gridCell: 'bg-white text-black border-2 border-black hover:bg-cyan-55 font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-sm',
-        navBtn: 'text-zinc-700 hover:text-black font-bold',
-        navBtnActive: 'text-purple-750 bg-purple-50 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]',
-        subCard: 'bg-white border border-black/30',
-        formInput: 'bg-white border-2 border-black focus:ring-purple-700 text-black font-bold'
+        textMuted: 'text-zinc-650 font-semibold',
+        textTitle: 'text-black font-black uppercase tracking-wide',
+        textAccent: 'text-[#59C749] font-extrabold',
+        btnAccent: 'bg-[#59C749] hover:bg-[#4ab53b] text-black font-extrabold border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 uppercase tracking-widest',
+        btnSecondary: 'bg-white hover:bg-zinc-100 text-black border-3 border-black font-extrabold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200',
+        gridCell: 'bg-white text-black border-3 border-black font-black hover:bg-emerald-100 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-100',
+        navBtn: 'text-zinc-700 hover:text-black font-extrabold transition-colors',
+        navBtnActive: 'text-white bg-[#59C749] border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all duration-150',
+        subCard: 'bg-white border-2 border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all duration-150',
+        formInput: 'bg-white border-3 border-black focus:ring-2 focus:ring-[#59C749] text-black font-bold'
       }
     },
     lavender: {
       dark: {
-        bg: 'bg-[#0f0b18] text-purple-100 selection:bg-[#b19ffb]/30',
-        card: 'bg-[#1b1329] border border-[#2d1f44] shadow-xl',
+        bg: 'bg-gradient-to-br from-[#0c0819] via-[#16102c] to-[#0c0819] text-purple-100 selection:bg-purple-500/30',
+        card: 'bg-[#18112c]/90 border border-[#4c3b7a]/53 shadow-[0_20px_50px_rgba(12,8,25,0.4)] backdrop-blur-xl hover:border-purple-500/25 transition-all duration-300 rounded-3xl',
         border: 'border-[#2d1f44]',
         textMuted: 'text-purple-300/60',
-        textTitle: 'text-white',
+        textTitle: 'text-white font-extrabold',
         textAccent: 'text-[#b19ffb]',
-        btnAccent: 'bg-[#b19ffb] hover:bg-[#c3b5fc] text-[#0f0b18] font-semibold focus:ring-2 focus:ring-[#b19ffb]',
-        btnSecondary: 'bg-[#2d1f44] hover:bg-[#3d2c5c] text-purple-200 border border-[#443169] focus:ring-2 focus:ring-[#443169]',
-        gridCell: 'bg-[#1c142b] text-purple-150 hover:bg-[#261b3b] border border-[#2b1f42]/80 active:bg-[#31254d] shadow-sm',
-        navBtn: 'text-purple-300/60 hover:text-white',
-        navBtnActive: 'text-[#b19ffb] bg-[#1b1329] border border-[#2d1f44]',
-        subCard: 'bg-[#2d1f44]/40 border border-[#443169]/60',
-        formInput: 'bg-[#0f0b18] border border-[#2d1f44] focus:ring-[#b19ffb] text-white'
+        btnAccent: 'bg-gradient-to-r from-[#b19ffb] via-fuchsia-400 to-[#b19ffb] bg-[size:200%_auto] hover:bg-[right_center] text-[#0f0b18] font-bold shadow-lg shadow-purple-650/15 focus:ring-2 focus:ring-[#b19ffb] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
+        btnSecondary: 'bg-[#2d1f44]/90 hover:bg-[#3d2c5c] text-purple-200 border border-[#443169]/70 focus:ring-2 focus:ring-[#443169] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-200',
+        gridCell: 'bg-gradient-to-b from-[#1c142e] to-[#120d1f] text-purple-150 hover:from-[#261b3d] hover:to-[#1c142e] border border-purple-800/40 hover:border-purple-400/50 active:scale-95 shadow-md active:bg-[#1a112c] transition-all duration-150 relative overflow-hidden group hover:shadow-[0_0_15px_rgba(168,85,247,0.15)]',
+        navBtn: 'text-purple-300/60 hover:text-white transition-colors',
+        navBtnActive: 'text-[#b19ffb] bg-[#b19ffb]/10 border border-[#b19ffb]/30 shadow-sm',
+        subCard: 'bg-[#2d1f44]/45 border border-[#443169]/60 hover:border-[#443169] hover:bg-[#2d1f44]/70 transition-all duration-200',
+        formInput: 'bg-[#120d1f] border border-[#2d1f44] focus:ring-[#b19ffb] focus:border-[#b19ffb] text-white'
       },
       light: {
-        bg: 'bg-[#f6f4fa] text-purple-950 selection:bg-purple-600/20',
-        card: 'bg-white border border-purple-200 shadow-md',
-        border: 'border-purple-200',
-        textMuted: 'text-purple-700/60',
-        textTitle: 'text-purple-950',
-        textAccent: 'text-purple-700',
-        btnAccent: 'bg-purple-600 hover:bg-purple-700 text-white font-semibold focus:ring-2 focus:ring-purple-500',
-        btnSecondary: 'bg-purple-100 hover:bg-purple-200 text-purple-850 border border-purple-150 focus:ring-2 focus:ring-purple-300',
-        gridCell: 'bg-white text-purple-900 hover:bg-[#f6f4fa] border border-purple-150 active:bg-purple-100 shadow-sm',
-        navBtn: 'text-purple-700/70 hover:text-purple-950',
-        navBtnActive: 'text-purple-800 bg-purple-5 border border-purple-100',
-        subCard: 'bg-purple-50/50 border border-purple-100/85',
-        formInput: 'bg-[#f6f4fa] border border-purple-205 focus:ring-purple-600 text-purple-900'
+        bg: 'bg-gradient-to-br from-[#FFFDF1] via-white to-[#FFFDF1] text-purple-950 selection:bg-[#59C749]/20',
+        card: 'bg-white border border-purple-200/90 shadow-[0_20px_40px_rgba(89,199,73,0.035)] backdrop-blur-lg hover:border-[#59C749]/20 transition-all duration-300 rounded-3xl',
+        border: 'border-purple-150',
+        textMuted: 'text-purple-650',
+        textTitle: 'text-purple-950 font-bold',
+        textAccent: 'text-[#59C749]',
+        btnAccent: 'bg-[#59C749] hover:bg-[#4ab53b] text-white shadow-md shadow-[#59C749]/15 focus:ring-2 focus:ring-[#59C749] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
+        btnSecondary: 'bg-purple-100/90 hover:bg-purple-200 text-purple-850 border border-purple-150 focus:ring-2 focus:ring-purple-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-200',
+        gridCell: 'bg-gradient-to-b from-white to-[#FFFDF1] text-purple-900 hover:from-[#f5f3ff] hover:to-[#efeaff] border border-purple-150 hover:border-[#59C749]/50 active:scale-95 shadow-sm active:bg-[#f5f3ff] transition-all duration-150',
+        navBtn: 'text-purple-700/70 hover:text-purple-950 transition-colors',
+        navBtnActive: 'text-white bg-[#59C749] border border-[#59C749]/30 shadow-sm',
+        subCard: 'bg-purple-50/70 border border-purple-100/80 hover:border-[#59C749] hover:bg-[#FFFDF1]/50 transition-all duration-200',
+        formInput: 'bg-white border border-purple-200 focus:ring-[#59C749] focus:border-[#59C749] text-purple-900'
       }
     }
   }[settings.theme] || {
@@ -291,7 +288,7 @@ function SchulteAppContent() {
       card: 'bg-slate-900 border border-slate-800',
       border: 'border-slate-800',
       textMuted: 'text-slate-400',
-      textTitle: 'text-white',
+      textTitle: 'text-white font-bold',
       textAccent: 'text-indigo-400',
       btnAccent: 'bg-indigo-600 hover:bg-indigo-500 text-white',
       btnSecondary: 'bg-slate-800 text-slate-200',
@@ -302,17 +299,17 @@ function SchulteAppContent() {
       formInput: 'bg-slate-950 border border-slate-850 text-white'
     },
     light: {
-      bg: 'bg-slate-50 text-slate-900',
+      bg: 'bg-[#FFFDF1] text-slate-900',
       card: 'bg-white border border-slate-200',
       border: 'border-slate-200',
       textMuted: 'text-slate-550',
       textTitle: 'text-slate-900',
-      textAccent: 'text-indigo-600',
-      btnAccent: 'bg-indigo-600 hover:bg-indigo-700 text-white',
-      btnSecondary: 'bg-slate-100 hover:bg-slate-200 text-slate-700',
+      textAccent: 'text-[#59C749]',
+      btnAccent: 'bg-[#59C749] hover:bg-[#4ab53b] text-white',
+      btnSecondary: 'bg-slate-100 hover:bg-slate-200 text-slate-705',
       gridCell: 'bg-white text-slate-800 hover:bg-slate-100 border border-slate-200',
       navBtn: 'text-slate-500 hover:text-slate-900',
-      navBtnActive: 'text-indigo-600 bg-slate-50 border border-slate-250',
+      navBtnActive: 'text-white bg-[#59C749] border border-slate-250',
       subCard: 'bg-slate-100/60 border border-slate-200/80',
       formInput: 'bg-slate-50 border border-slate-200 text-slate-900'
     }
@@ -625,20 +622,48 @@ function SchulteAppContent() {
                   quitActiveRound();
                 } else return;
               }
-              setLeaderboardActive(false);
               setCurrentScreen('home');
             }} 
             className="flex items-center gap-3 group text-left cursor-pointer focus:outline-none select-none"
           >
-            <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-black tracking-wider text-xl shadow-lg shadow-indigo-600/20 group-hover:scale-105 transition-transform flex-shrink-0">
-              S
-            </div>
-            <div className="flex flex-col justify-center h-10 text-left">
-              <span className={`font-bold text-base sm:text-lg leading-none tracking-tight block ${activeStyles.textTitle}`}>
+            <svg viewBox="0 0 100 100" className="w-10 h-10 group-hover:scale-105 transition-transform duration-300 flex-shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Row 1 */}
+              <rect x="6" y="6" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+              <rect x="28" y="6" width="18" height="18" rx="5" stroke="#3b82f6" strokeWidth="2.5" className="opacity-95" />
+              <rect x="50" y="6" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+              <rect x="72" y="6" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+              
+              {/* Row 2 */}
+              <rect x="6" y="28" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+              <rect x="28" y="28" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+              <rect x="50" y="28" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+              <rect x="72" y="28" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+
+              {/* Row 3 - Middle elements */}
+              <rect x="6" y="50" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+              <rect x="28" y="50" width="40" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/70" />
+              <text x="48" y="63" fill="currentColor" fontFamily="monospace" fontSize="13" fontWeight="bold" textAnchor="middle" className="text-slate-400 dark:text-slate-200">8</text>
+              <rect x="72" y="50" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+
+              {/* Row 4 */}
+              <rect x="6" y="72" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+              <rect x="28" y="72" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+              <rect x="50" y="72" width="18" height="18" rx="5" stroke="#ecc94b" strokeWidth="2.5" />
+              <rect x="72" y="72" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-700/50 dark:text-slate-800/80" />
+
+              {/* Cyan/Blue Circuit Routing path */}
+              <path d="M 37 15 L 59 15 Q 81 15 81 37 L 81 59 L 89 59" stroke="#06b6d4" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="37" cy="15" r="3" fill="#3b82f6" />
+              <circle cx="59" cy="15" r="3" fill="#38bdf8" />
+              <circle cx="89" cy="59" r="3" fill="#22d3ee" />
+
+              {/* Yellow Routing path */}
+              <path d="M 59 81 L 81 81 Q 81 69 81 59" stroke="#ecc94b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="59" cy="81" r="3" fill="#fbbf24" />
+            </svg>
+            <div className="flex flex-col justify-center text-left">
+              <span className={`font-bold text-base sm:text-lg leading-tight tracking-tight block ${activeStyles.textTitle}`}>
                 Schulte Matrix
-              </span>
-              <span className={`text-[10px] uppercase tracking-wider block font-semibold mt-1 leading-none ${activeStyles.textAccent}`}>
-                Foveal Training
               </span>
             </div>
           </button>
@@ -664,24 +689,7 @@ function SchulteAppContent() {
               {isLight ? <Moon className="w-4.5 h-4.5" /> : <Sun className="w-4.5 h-4.5" />}
             </button>
 
-            <button
-              onClick={() => {
-                if (gameRunning) return;
-                setLeaderboardActive(!leaderboardActive);
-              }}
-              disabled={gameRunning}
-              className={`w-10 h-10 inline-flex items-center justify-center rounded-xl transition-all duration-150 cursor-pointer ${
-                leaderboardActive 
-                  ? 'text-amber-500 ' + activeStyles.navBtnActive 
-                  : activeStyles.navBtn + (isLight ? ' hover:bg-slate-100 hover:text-slate-900' : ' hover:bg-slate-800/80 hover:text-white')
-              }`}
-              title="Global Leaderboard"
-              id="top-leaderboard-btn"
-            >
-              <Trophy className="w-4.5 h-4.5" />
-            </button>
-
-            <button
+             <button
               onClick={() => {
                 if (gameRunning) {
                   if (confirm('Cancel active game and open view?')) quitActiveRound();
@@ -719,34 +727,36 @@ function SchulteAppContent() {
               <Sliders className="w-4.5 h-4.5" />
             </button>
 
-            <div className={`h-6 w-[1px] ${activeStyles.border} ${gameRunning ? 'hidden' : 'block'} self-center mx-1 sm:mx-2`} />
-
             {/* Profile Logic */}
             <div className={gameRunning ? 'hidden' : 'block'}>
               {currentUser ? (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5 sm:gap-3">
                   <div className="hidden md:flex flex-col text-right justify-center h-10">
                     <span className={`text-xs font-bold leading-none ${isLight ? 'text-slate-800' : 'text-slate-350'}`}>{currentUser.name}</span>
                     <span className="text-[10px] text-emerald-500 font-mono mt-1 leading-none">Streak: {stats.streakDays}d</span>
                   </div>
-                  <button
+                  <motion.button
                     onClick={handleLogout}
+                    whileHover={{ scale: 1.03, y: -1 }}
+                    whileTap={{ scale: 0.97 }}
                     className="inline-flex items-center justify-center gap-1.5 h-10 px-3.5 rounded-xl text-xs font-bold text-rose-500 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition-all cursor-pointer"
                     id="user-logout"
                   >
                     <LogOut className="w-4 h-4" />
                     <span className="hidden sm:inline font-bold">Logout</span>
-                  </button>
+                  </motion.button>
                 </div>
               ) : (
-                <button
+                <motion.button
                   onClick={() => setCurrentScreen('auth')}
-                  className="inline-flex items-center justify-center gap-1.5 h-10 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition shadow-md shadow-indigo-600/10 cursor-pointer"
+                  whileHover={{ scale: 1.03, y: -1 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`inline-flex items-center justify-center gap-1.5 h-10 px-4 text-xs font-black rounded-xl transition-all duration-300 shadow-md cursor-pointer ${activeStyles.btnAccent}`}
                   id="user-login-prompt"
                 >
                   <LogIn className="w-4 h-4" />
                   <span>Login</span>
-                </button>
+                </motion.button>
               )}
             </div>
           </div>
@@ -756,22 +766,7 @@ function SchulteAppContent() {
       {/* Main SPA Container */}
       <main className="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-8 relative z-10">
         <AnimatePresence mode="wait">
-          {leaderboardActive ? (
-            <motion.div
-              key="leaderboards"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.15 }}
-              className="w-full"
-            >
-              <LeaderboardScreen
-                onBack={() => setLeaderboardActive(false)}
-                defaultDifficulty={settings.gridSize}
-                defaultMode={settings.mode}
-              />
-            </motion.div>
-          ) : currentScreen === 'home' ? (
+          {currentScreen === 'home' ? (
             <motion.div
               key="home"
               initial={{ opacity: 0, y: 15 }}
@@ -783,8 +778,8 @@ function SchulteAppContent() {
               {/* Home - Left Section: Info/Intro Cards */}
               <div className="md:col-span-7 space-y-6 text-left">
                 <div className="space-y-3">
-                  <div className={`inline-flex items-center gap-2 px-3 py-1 ${isLight ? 'bg-indigo-50 border-indigo-150 text-indigo-750' : 'bg-indigo-505/10 border border-indigo-500/20 text-indigo-400'} rounded-full text-xs font-semibold uppercase tracking-wider`}>
-                    <Sparkles className="w-3 h-3 text-indigo-500" /> Foveal & Peripheral Sight Engine
+                  <div className={`inline-flex items-center gap-2 px-3 py-1 ${isLight ? 'bg-[#59C749]/10 border border-[#59C749]/20 text-[#4ab53b]' : 'bg-indigo-505/10 border border-indigo-500/20 text-indigo-400'} rounded-full text-xs font-semibold uppercase tracking-wider`}>
+                    <Sparkles className={`w-3 h-3 ${isLight ? 'text-[#59C749]' : 'text-indigo-400'}`} /> Foveal & Peripheral Sight Engine
                   </div>
                   <h1 className={`text-4xl sm:text-5xl font-black tracking-tight leading-tight ${activeStyles.textTitle}`}>
                     Double Your Reading <br />& Focus Processing
@@ -801,39 +796,43 @@ function SchulteAppContent() {
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                     <div className={`space-y-1.5 p-3 rounded-xl ${activeStyles.subCard}`}>
-                      <div className={`w-6 h-6 rounded-md ${isLight ? 'bg-indigo-100 text-indigo-705 font-black' : 'bg-indigo-500/20 text-indigo-405 font-bold'} flex items-center justify-center`}>1</div>
+                      <div className={`w-6 h-6 rounded-md ${isLight ? 'bg-[#59C749]/10 text-[#4ab53b] font-black' : 'bg-indigo-500/20 text-indigo-405 font-bold'} flex items-center justify-center`}>1</div>
                       <span className={`font-semibold block ${activeStyles.textTitle}`}>Fix Eye Center</span>
                       <p className={`leading-normal ${activeStyles.textMuted}`}>Keep focus solely on center square. Let eye expansion find values.</p>
                     </div>
                     <div className={`space-y-1.5 p-3 rounded-xl ${activeStyles.subCard}`}>
-                      <div className={`w-6 h-6 rounded-md ${isLight ? 'bg-indigo-100 text-indigo-705 font-black' : 'bg-indigo-500/20 text-indigo-405 font-bold'} flex items-center justify-center`}>2</div>
+                      <div className={`w-6 h-6 rounded-md ${isLight ? 'bg-[#59C749]/10 text-[#4ab53b] font-black' : 'bg-indigo-500/20 text-indigo-405 font-bold'} flex items-center justify-center`}>2</div>
                       <span className={`font-semibold block ${activeStyles.textTitle}`}>Ascending Tap</span>
                       <p className={`leading-normal ${activeStyles.textMuted}`}>Tap numbers in sequence as quick as neurologically possible.</p>
                     </div>
                     <div className={`space-y-1.5 p-3 rounded-xl ${activeStyles.subCard}`}>
-                      <div className={`w-6 h-6 rounded-md ${isLight ? 'bg-indigo-100 text-indigo-705 font-black' : 'bg-indigo-500/20 text-indigo-405 font-bold'} flex items-center justify-center`}>3</div>
+                      <div className={`w-6 h-6 rounded-md ${isLight ? 'bg-[#59C749]/10 text-[#4ab53b] font-black' : 'bg-indigo-500/20 text-indigo-405 font-bold'} flex items-center justify-center`}>3</div>
                       <span className={`font-semibold block ${activeStyles.textTitle}`}>Speed Splits</span>
                       <p className={`leading-normal ${activeStyles.textMuted}`}>Review charts and accelerate your mental split coefficients.</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Primary CTA Play Button */}
+                {/* Primary CTA Play Button with gorgeous microinteractions */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <button
+                  <motion.button
                     onClick={startNewRound}
-                    className={`flex-none px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-aesthetic cursor-pointer ${activeStyles.btnAccent}`}
+                    whileHover={{ scale: 1.03, y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    className={`flex-none px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all duration-300 cursor-pointer ${activeStyles.btnAccent}`}
                     id="btn-play-game"
                   >
                     <Play className="fill-white w-5 h-5 text-white" /> Start Focus Session
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     onClick={() => setCurrentScreen('settings')}
-                    className={`px-6 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-aesthetic cursor-pointer ${activeStyles.btnSecondary}`}
+                    whileHover={{ scale: 1.03, y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    className={`px-6 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${activeStyles.btnSecondary}`}
                     id="btn-prep-settings"
                   >
                     <Sliders className={`w-4 h-4 ${isLight ? 'text-slate-600' : 'text-slate-400'}`} /> Customize Grid Matrix
-                  </button>
+                  </motion.button>
                 </div>
               </div>
 
@@ -841,8 +840,8 @@ function SchulteAppContent() {
               <div className="md:col-span-5 space-y-6">
                 {/* Stats Widget */}
                 <div className={`${activeStyles.card} p-6 rounded-3xl relative overflow-hidden text-left`}>
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/10 rounded-bl-full flex items-center justify-center">
-                    <Activity className="w-6 h-6 text-indigo-400 translate-x-2 -translate-y-2" />
+                  <div className={`absolute top-0 right-0 w-24 h-24 ${isLight ? 'bg-[#59C749]/5' : 'bg-indigo-500/10'} rounded-bl-full flex items-center justify-center`}>
+                    <Activity className={`w-6 h-6 ${isLight ? 'text-[#59C749]' : 'text-indigo-400'} translate-x-2 -translate-y-2`} />
                   </div>
 
                   <h2 className={`text-xl font-bold mb-6 ${activeStyles.textTitle}`}>Training Overview</h2>
@@ -851,7 +850,7 @@ function SchulteAppContent() {
                     {/* Stat Item */}
                     <div className={`p-3.5 rounded-2xl ${activeStyles.subCard}`}>
                       <span className={`text-[10px] font-bold uppercase tracking-widest block ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Fastest Time</span>
-                      <span className={`text-2xl font-black tracking-tight font-mono ${isLight ? 'text-indigo-650' : 'text-indigo-400'}`}>
+                      <span className={`text-2xl font-black tracking-tight font-mono ${isLight ? 'text-[#59C749]' : 'text-indigo-400'}`}>
                         {stats.bestTimeMs[settings.gridSize] > 0 
                           ? formatDisplayTime(stats.bestTimeMs[settings.gridSize])
                           : '--'
@@ -882,8 +881,8 @@ function SchulteAppContent() {
                   </div>
 
                   {/* Subtitle / Tip */}
-                  <div className={`mt-6 flex gap-3 p-3 rounded-xl text-xs ${isLight ? 'bg-indigo-50 border border-indigo-150 text-slate-700' : 'bg-indigo-500/5 border border-indigo-500/10 text-slate-400'}`}>
-                    <HelpCircle className={`w-5 h-5 flex-shrink-0 ${isLight ? 'text-indigo-600' : 'text-indigo-400'}`} />
+                  <div className={`mt-6 flex gap-3 p-3 rounded-xl text-xs ${isLight ? 'bg-[#59C749]/5 border border-[#59C749]/15 text-slate-705' : 'bg-indigo-500/5 border border-indigo-500/10 text-slate-400'}`}>
+                    <HelpCircle className={`w-5 h-5 flex-shrink-0 ${isLight ? 'text-[#59C749]' : 'text-indigo-400'}`} />
                     <span>
                       Selected difficulty: <strong className={`font-bold ${activeStyles.textTitle}`}>{settings.gridSize} ({settings.mode})</strong>. Modify sizes or mode preferences dynamically using the Settings tab.
                     </span>
@@ -897,7 +896,7 @@ function SchulteAppContent() {
                       <span className={`flex items-center gap-2 font-medium ${isLight ? 'text-slate-700' : 'text-slate-400'}`}>
                         <TrendingUp className="w-4 h-4 text-emerald-500" /> Completed sessions log loaded
                       </span>
-                      <span className={`font-bold hover:underline ${isLight ? 'text-indigo-750' : 'text-indigo-400'}`}>View History »</span>
+                      <span className={`font-bold hover:underline ${isLight ? 'text-[#59C749]' : 'text-indigo-400'}`}>View History »</span>
                     </div>
                   </div>
                 )}
@@ -914,8 +913,8 @@ function SchulteAppContent() {
             >              {/* Gameplay Header / Stats Bar */}
               <div className={`w-full flex justify-between items-center ${activeStyles.card} bg-opacity-40 p-4 rounded-2xl backdrop-blur-sm self-stretch flex-col sm:flex-row gap-4 text-left transition-all duration-300`}>
                 <div className="flex items-center gap-3 w-full sm:w-auto">
-                  <div className={`p-2 border rounded-xl ${isLight ? 'bg-indigo-50 border-indigo-150' : 'bg-slate-850 border border-slate-800'}`}>
-                    <Clock className={`w-5 h-5 animate-pulse ${isLight ? 'text-indigo-650' : 'text-indigo-400'}`} />
+                  <div className={`p-2 border rounded-xl ${isLight ? 'bg-[#59C749]/10 border-[#59C749]/20' : 'bg-slate-850 border border-slate-800'}`}>
+                    <Clock className={`w-5 h-5 animate-pulse ${isLight ? 'text-[#59C749]' : 'text-indigo-400'}`} />
                   </div>
                   <div>
                     <span className={`text-[10px] font-bold uppercase tracking-widest block ${isLight ? 'text-slate-500/80' : 'text-slate-505'}`}>Elapsed Time</span>
@@ -929,7 +928,7 @@ function SchulteAppContent() {
                 <div className={`flex gap-4 sm:gap-6 justify-between sm:justify-start w-full sm:w-auto border-t sm:border-t-0 ${isLight ? 'border-slate-200' : 'border-slate-800'} pt-4 sm:pt-0`}>
                   <div className="text-center sm:text-left">
                     <span className={`text-[10px] font-bold uppercase tracking-widest block ${isLight ? 'text-slate-500/80' : 'text-slate-505'}`}>Expect Focus Target</span>
-                    <span className={`text-2xl font-black tracking-tight font-mono leading-none ${isLight ? 'text-indigo-650' : 'text-indigo-400'}`}>
+                    <span className={`text-2xl font-black tracking-tight font-mono leading-none ${isLight ? 'text-[#59C749]' : 'text-indigo-400'}`}>
                       {getExpectedItemLabel()}
                     </span>
                   </div>
@@ -967,37 +966,49 @@ function SchulteAppContent() {
                     const isPulsing = cell.pulsing;
 
                     return (
-                      <button
+                      <motion.button
                         key={cell.id}
                         onClick={() => handleCellTap(cell)}
                         disabled={isTapped}
-                        className={`h-full w-full rounded-2xl font-extrabold flex items-center justify-center transition-all cursor-pointer select-none text-xl sm:text-2xl md:text-3xl ${
+                        whileHover={!isTapped ? { 
+                          scale: 1.05, 
+                          rotate: cell.id % 2 === 0 ? 0.8 : -0.8,
+                          y: -2,
+                          transition: { type: "spring", stiffness: 400, damping: 12 }
+                        } : {}}
+                        whileTap={!isTapped ? { scale: 0.94 } : {}}
+                        className={`h-full w-full rounded-2xl font-extrabold flex items-center justify-center select-none text-xl sm:text-2xl md:text-3xl transition-all cursor-pointer relative overflow-hidden group ${
                           isTapped
                             ? isLight
-                              ? 'bg-slate-150 border border-slate-200 text-slate-400/90 pointer-events-auto opacity-40 shadow-none scale-95'
-                              : 'bg-slate-905 border border-slate-850 text-slate-700 pointer-events-auto opacity-30 shadow-none scale-95'
+                              ? 'bg-slate-100/90 border border-slate-200 text-slate-350 pointer-events-auto opacity-35 shadow-none'
+                              : 'bg-slate-900/40 border border-slate-850/80 text-slate-650 pointer-events-auto opacity-25 shadow-none'
                             : isError
-                            ? 'bg-red-500/20 border-2 border-red-500 text-red-500 shadow-lg shadow-red-500/20 scale-95 animate-shake'
+                            ? 'bg-red-500/15 border-2 border-red-500 text-red-500 shadow-[0_0_20px_rgba(239,68,68,0.25)] animate-shake'
                             : isPulsing
-                            ? 'bg-indigo-600/30 border border-indigo-500 text-white pulse-target'
+                            ? isLight
+                              ? 'bg-[#59C749]/30 border-2 border-[#59C749] text-indigo-950 font-black pulse-target'
+                              : 'bg-indigo-600/30 border-2 border-indigo-505 text-white pulse-target'
                             : activeStyles.gridCell
                         }`}
                         id={`schulte-${cell.id}`}
                         style={{
-                          transform: isTapped ? 'scale(0.95)' : 'scale(1)',
-                          transition: 'all 0.12s cubic-bezier(0.16, 1, 0.3, 1)'
+                          transformOrigin: 'center'
                         }}
                       >
-                        {cell.label}
-                      </button>
+                        {/* Interactive glassy shine reflection */}
+                        {!isTapped && (
+                          <span className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                        )}
+                        <span className="relative z-10">{cell.label}</span>
+                      </motion.button>
                     );
                   })}
                 </div>
 
                 {/* Overlay Game State Screen: Starts game */}
-                {!gameStarted && (
+                 {!gameStarted && (
                   <div className={`absolute inset-0 z-20 backdrop-blur-md rounded-3xl flex flex-col justify-center items-center text-center p-6 space-y-4 ${isLight ? 'bg-white/90' : 'bg-slate-950/80'}`}>
-                    <div className="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-xl shadow-indigo-600/20">
+                    <div className={`w-16 h-16 rounded-full flex items-center justify-center text-white shadow-xl ${isLight ? 'bg-[#59C749] shadow-[#59C749]/20' : 'bg-indigo-600 shadow-indigo-600/20'}`}>
                       <Compass className="w-8 h-8 animate-spin-slow text-white" />
                     </div>
                     <div className="space-y-1">
@@ -1008,7 +1019,7 @@ function SchulteAppContent() {
                     </div>
                     <button
                       onClick={triggerSessionTimer}
-                      className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl transition duration-150 flex items-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/10"
+                      className={`px-6 py-3 ${isLight ? 'bg-[#59C749] hover:bg-[#4ab53b]' : 'bg-indigo-600 hover:bg-indigo-500'} text-white font-bold text-sm rounded-xl transition duration-150 flex items-center gap-2 cursor-pointer shadow-lg ${isLight ? 'shadow-[#59C749]/10' : 'shadow-indigo-600/10'}`}
                       id="game-start-trigger"
                     >
                       <Play className="fill-white w-4 h-4 text-white" /> Start Round Focus
@@ -1030,7 +1041,7 @@ function SchulteAppContent() {
                     </div>
                     <button
                       onClick={resumeActiveSession}
-                      className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl transition duration-150 flex items-center gap-2 cursor-pointer shadow-md shadow-indigo-600/10"
+                      className={`px-6 py-3 ${isLight ? 'bg-[#59C749] hover:bg-[#4ab53b]' : 'bg-indigo-600 hover:bg-indigo-500'} text-white font-bold text-sm rounded-xl transition duration-150 flex items-center gap-2 cursor-pointer shadow-md ${isLight ? 'shadow-[#59C749]/10' : 'shadow-indigo-600/10'}`}
                       id="game-resume-trigger"
                     >
                       <Play className="fill-white w-4 h-4 text-white" /> Resume Focus
@@ -1040,61 +1051,71 @@ function SchulteAppContent() {
               </div>
 
               {/* In-Game Action Menus scaled down to match visual rhythm */}
-              <div className="w-full max-w-xl flex flex-wrap sm:flex-nowrap gap-2 sm:gap-2.5 justify-center mt-1">
+              <div className="w-full max-w-md flex flex-wrap sm:flex-nowrap gap-2 justify-center mt-4">
                 {gameRunning ? (
-                  <button
+                  <motion.button
                     onClick={pauseActiveSession}
-                    className={`flex-1 min-w-[110px] py-1.5 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer ${activeStyles.btnSecondary}`}
+                    whileHover={{ scale: 1.02, y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`flex-1 h-9 px-3.5 rounded-xl font-extrabold text-[11px] uppercase tracking-wide flex items-center justify-center gap-1.5 transition cursor-pointer ${activeStyles.btnSecondary}`}
                     id="game-pause-mid"
                   >
-                    <Pause className="w-3.5 h-3.5" /> Pause Timer
-                  </button>
+                    <Pause className="w-3.5 h-3.5" /> Pause
+                  </motion.button>
                 ) : (
                   gameStarted && (
-                    <button
+                    <motion.button
                       onClick={resumeActiveSession}
-                      className={`flex-1 min-w-[110px] py-1.5 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer ${activeStyles.btnAccent}`}
+                      whileHover={{ scale: 1.02, y: -1 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`flex-1 h-9 px-3.5 rounded-xl font-extrabold text-[11px] uppercase tracking-wide flex items-center justify-center gap-1.5 transition cursor-pointer ${activeStyles.btnAccent}`}
                       id="game-resume-mid"
                     >
-                      <Play className="fill-white w-3.5 h-3.5 text-white" /> Continue Round
-                    </button>
+                      <Play className="fill-white w-3.5 h-3.5 text-white" /> Continue
+                    </motion.button>
                   )
                 )}
 
-                <button
+                <motion.button
                   onClick={triggerTargetVisualPulse}
                   disabled={!gameRunning}
-                  className={`py-1.5 px-3 sm:px-3 text-xs rounded-lg font-bold border focus:ring-1 flex items-center justify-center gap-1.5 ${
+                  whileHover={gameRunning ? { scale: 1.02, y: -1 } : {}}
+                  whileTap={gameRunning ? { scale: 0.98 } : {}}
+                  className={`flex-1 h-9 px-3 text-[11px] uppercase tracking-wide rounded-xl font-extrabold border flex items-center justify-center gap-1.5 ${
                     gameRunning 
                       ? isLight
-                        ? 'bg-white border-slate-250 text-indigo-700 hover:bg-slate-100 cursor-pointer shadow-sm'
-                        : 'bg-slate-900 border-slate-800 text-indigo-400 hover:bg-slate-850 cursor-pointer'
+                        ? 'bg-white border-slate-250 text-[#4ab53b] hover:bg-slate-100 cursor-pointer shadow-sm'
+                        : 'bg-slate-905 border-slate-800 text-indigo-400 hover:bg-slate-850 cursor-pointer'
                       : isLight
-                        ? 'bg-slate-50 border-slate-100 text-slate-405 cursor-not-allowed opacity-50'
-                        : 'bg-slate-950 border-slate-900 text-slate-600 cursor-not-allowed opacity-50'
+                        ? 'bg-slate-50 border-slate-100 text-slate-400 cursor-not-allowed opacity-55'
+                        : 'bg-slate-950 border-slate-900 text-slate-655 cursor-not-allowed opacity-55'
                   }`}
                   title="Flash current target position"
                   id="game-pulse-hint"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-505" /> Target Hint
-                </button>
+                  <Sparkles className={`w-3.5 h-3.5 ${isLight ? 'text-[#59C749]' : 'text-[#88c0d0]'}`} /> Hint
+                </motion.button>
 
-                <button
+                <motion.button
                   onClick={startNewRound}
-                  className={`py-1.5 px-3 sm:px-3 text-xs rounded-lg font-bold transition flex items-center justify-center gap-1.5 cursor-pointer ${activeStyles.btnSecondary}`}
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`flex-1 h-9 px-3.5 rounded-xl font-extrabold text-[11px] uppercase tracking-wide transition flex items-center justify-center gap-1.5 cursor-pointer ${activeStyles.btnSecondary}`}
                   title="Reinitialize the current board"
                   id="game-reset-mid"
                 >
                   <RotateCcw className="w-3.5 h-3.5" /> Reset
-                </button>
+                </motion.button>
 
-                <button
+                <motion.button
                   onClick={quitActiveRound}
-                  className="py-1.5 px-3 rounded-lg font-bold text-xs border border-rose-500/20 text-rose-500 bg-rose-500/5 hover:bg-rose-500/10 transition cursor-pointer"
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="h-9 px-3.5 rounded-xl font-extrabold text-[11px] uppercase tracking-wide border border-rose-500/25 text-rose-500 bg-rose-500/5 hover:bg-rose-500/10 transition cursor-pointer"
                   id="game-quit-mid"
                 >
-                  Quit Game
-                </button>
+                  Quit
+                </motion.button>
               </div>
             </motion.div>
           ) : currentScreen === 'results' && lastFinishedSession ? (
@@ -1126,7 +1147,7 @@ function SchulteAppContent() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className={`p-4 rounded-2xl ${activeStyles.subCard}`}>
                   <span className={`text-[10px] font-bold uppercase tracking-widest block ${isLight ? 'text-slate-500' : 'text-slate-500'}`}>Round Solved In</span>
-                  <span className={`text-2xl font-black font-mono ${isLight ? 'text-indigo-650' : 'text-indigo-400'}`}>
+                  <span className={`text-2xl font-black font-mono ${isLight ? 'text-[#59C749]' : 'text-indigo-400'}`}>
                     {formatDisplayTime(lastFinishedSession.totalTimeMs)}
                   </span>
                 </div>
@@ -1177,9 +1198,7 @@ function SchulteAppContent() {
                                 Tap {index + 1}: {formatDisplayTime(interval)}
                               </div>
                               <div 
-                                className={`w-full group-hover:bg-indigo-400 group-hover:bg-indigo-500 transition-all ease-out rounded-t-md ${
-                                  isLight ? 'bg-indigo-600/70' : 'bg-indigo-500/50'
-                                }`}
+                                className={`w-full ${isLight ? 'group-hover:bg-[#4ab53b] bg-[#59C749]/70' : 'group-hover:bg-indigo-400 bg-indigo-500/50'} transition-all ease-out rounded-t-md`}
                                 style={{ height: `${Math.max(pctHeight, 8)}%` }}
                               />
                               <span className="text-[8px] sm:text-[10px] font-mono text-slate-500 mt-1 font-semibold">
@@ -1201,21 +1220,25 @@ function SchulteAppContent() {
 
               {/* Actions CTAs */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <button
+                <motion.button
                   onClick={startNewRound}
-                  className={`flex-1 py-4.5 px-6 rounded-xl font-bold flex items-center justify-center gap-3 transition cursor-pointer ${activeStyles.btnAccent}`}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`flex-1 py-4 px-6 rounded-xl font-bold flex items-center justify-center gap-3 transition cursor-pointer group ${activeStyles.btnAccent}`}
                   id="results-play-again"
                 >
-                  <RotateCcw className="w-5 h-5 text-white" /> Start Focus Refresher
-                </button>
-                <button
+                  <RotateCcw className="w-5 h-5 text-white transition-transform duration-500 group-hover:rotate-180" /> Start Focus Refresher
+                </motion.button>
+                <motion.button
                   onClick={() => setCurrentScreen('home')}
-                  className={`py-4.5 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition cursor-pointer ${activeStyles.btnSecondary}`}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`py-4 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition cursor-pointer ${activeStyles.btnSecondary}`}
                   id="results-dashboard-nav"
                 >
                   Return Dashboard
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   onClick={() => {
                     const shareText = `🧠 I completed a ${lastFinishedSession.difficulty} Schulte Table training in ${formatDisplayTime(lastFinishedSession.totalTimeMs)} with ${lastFinishedSession.accuracy}% accuracy! Test your focus on Schulte Matrix.`;
                     try {
@@ -1229,11 +1252,13 @@ function SchulteAppContent() {
                       showToast(shareText, 'info', 6000);
                     }
                   }}
-                  className={`py-4.5 px-4 rounded-xl border ${isLight ? 'border-slate-200 hover:bg-slate-50 text-slate-650' : 'border-slate-805 text-slate-350 hover:bg-slate-850'} font-semibold cursor-pointer flex items-center justify-center gap-2`}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`py-4 px-4 rounded-xl border ${isLight ? 'border-slate-200 hover:bg-slate-50 text-slate-650' : 'border-slate-805 text-slate-350 hover:bg-slate-850'} font-semibold cursor-pointer flex items-center justify-center gap-2`}
                   title="Copy scoring to clipboard"
                 >
                   <Share2 className={`w-4 h-4 ${isLight ? 'text-slate-600' : 'text-slate-400'}`} /> Share Focus
-                </button>
+                </motion.button>
               </div>
             </motion.div>
           ) : currentScreen === 'history' ? (
@@ -1249,7 +1274,7 @@ function SchulteAppContent() {
               <div className={`flex justify-between items-start md:items-center flex-col md:flex-row gap-4 border-b ${isLight ? 'border-slate-200' : 'border-slate-800'} pb-5`}>
                 <div>
                   <h1 className={`text-3xl font-bold flex items-center gap-2 ${activeStyles.textTitle}`}>
-                    <HistoryIcon className="w-7 h-7 text-indigo-400" /> Historic Logs
+                    <HistoryIcon className={`w-7 h-7 ${isLight ? 'text-[#59C749]' : 'text-[#88c0d0]'}`} /> Historic Logs
                   </h1>
                   <p className={`text-sm mt-1 ${activeStyles.textMuted}`}>
                     Review and synchronize past neurological diagnostic rounds.
@@ -1286,11 +1311,11 @@ function SchulteAppContent() {
                   </h3>
                   <div className="h-44 w-full pt-2">
                     {/* Compact responsive custom Trend Line represent via SVG */}
-                    <svg className="w-full h-full text-indigo-505" viewBox="0 0 100 30" preserveAspectRatio="none">
+                    <svg className={`w-full h-full ${isLight ? 'text-[#59C749]' : 'text-indigo-505'}`} viewBox="0 0 100 30" preserveAspectRatio="none">
                       <defs>
                         <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
-                          <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
+                          <stop offset="0%" stopColor={isLight ? "#59C749" : "#6366f1"} stopOpacity="0.4" />
+                          <stop offset="100%" stopColor={isLight ? "#59C749" : "#6366f1"} stopOpacity="0" />
                         </linearGradient>
                       </defs>
 
@@ -1326,10 +1351,10 @@ function SchulteAppContent() {
                             {/* Area Fill */}
                             <path d={areaStr} fill="url(#chartGradient)" />
                             {/* Line Trace */}
-                            <path d={pathStr} fill="none" stroke="#6366f1" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d={pathStr} fill="none" stroke={isLight ? "#59C749" : "#6366f1"} strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" />
                             {/* Dots */}
                             {coordinates.map((p, i) => (
-                              <circle key={i} cx={p.x} cy={p.y} r="0.6" fill={isLight ? '#6366f1' : '#fff'} stroke="#6366f1" strokeWidth="0.3" className="cursor-pointer group-hover:scale-150 transition" />
+                              <circle key={i} cx={p.x} cy={p.y} r="0.6" fill={isLight ? '#59C749' : '#fff'} stroke={isLight ? '#59C749' : '#6366f1'} strokeWidth="0.3" className="cursor-pointer group-hover:scale-150 transition" />
                             ))}
                           </>
                         );
@@ -1365,10 +1390,10 @@ function SchulteAppContent() {
                     return (
                       <div
                         key={session.id || index}
-                        className={`${activeStyles.card} p-4.5 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition`}
+                        className={`${activeStyles.card} p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-[#59C749]/25 hover:shadow-md transition-all duration-300`}
                       >
                         <div className="flex items-center gap-3.5 text-left">
-                          <div className={`w-11 h-11 rounded-1.5xl ${isLight ? 'bg-indigo-50 border-indigo-150 text-indigo-705' : 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-400'} border flex flex-col justify-center items-center`}>
+                          <div className={`w-11 h-11 rounded-1.5xl ${isLight ? 'bg-[#59C749]/10 border-[#59C749]/20 text-[#4ab53b]' : 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-400'} border flex flex-col justify-center items-center`}>
                             <span className="text-[10px] font-extrabold uppercase leading-none">{session.difficulty}</span>
                             <span className="text-[9px] font-bold opacity-80 capitalize mt-1 leading-none">{session.mode}</span>
                           </div>
@@ -1413,7 +1438,7 @@ function SchulteAppContent() {
               <div className={`flex justify-between items-center border-b ${isLight ? 'border-slate-200' : 'border-slate-800'} pb-4 mb-6`}>
                 <div>
                   <h1 className={`text-3xl font-extrabold flex items-center gap-2 ${activeStyles.textTitle}`}>
-                    <Sliders className="w-7 h-7 text-indigo-400" /> General Preferences
+                    <Sliders className={`w-7 h-7 ${isLight ? 'text-[#59C749]' : 'text-indigo-400'}`} /> General Preferences
                   </h1>
                   <p className={`text-sm mt-1 ${activeStyles.textMuted}`}>
                     Refine training constraints, sound, and visual interface themes.
@@ -1432,7 +1457,7 @@ function SchulteAppContent() {
               <div className={`${activeStyles.card} rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl`}>
                 {/* 1. Grid Sizes */}
                 <div className="space-y-2">
-                  <label className={`text-xs font-bold uppercase tracking-wider block ${isLight ? 'text-slate-700' : 'text-slate-350'}`}>
+                  <label className={`text-xs font-bold uppercase tracking-wider block ${isLight ? 'text-slate-700' : 'text-slate-355'}`}>
                     Matrix Grid Size
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -1442,7 +1467,9 @@ function SchulteAppContent() {
                         onClick={() => saveSettingsUpdate({ ...settings, gridSize: size })}
                         className={`py-3 px-2 rounded-2xl font-bold text-center border capitalize transition cursor-pointer ${
                           settings.gridSize === size
-                            ? 'bg-indigo-600 border-indigo-500 text-white shadow-lg'
+                            ? isLight
+                              ? 'bg-[#59C749] border-[#59C749] text-white shadow-md'
+                              : 'bg-indigo-600 border-indigo-500 text-white shadow-lg'
                             : isLight
                             ? 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-600'
                             : 'bg-slate-950 border-slate-850 hover:bg-slate-850 text-slate-400'
@@ -1469,9 +1496,11 @@ function SchulteAppContent() {
                         onClick={() => saveSettingsUpdate({ ...settings, mode })}
                         className={`p-3 rounded-2xl font-semibold border text-left flex justify-between items-center transition cursor-pointer ${
                           settings.mode === mode
-                            ? 'bg-indigo-600 border-indigo-550 text-white'
+                            ? isLight
+                              ? 'bg-[#59C749] border-[#59C749] text-white shadow-md'
+                              : 'bg-indigo-600 border-indigo-550 text-white'
                             : isLight
-                            ? 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-700'
+                            ? 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-705'
                             : 'bg-slate-950 border-slate-850 hover:bg-slate-850 text-slate-400'
                         }`}
                       >
@@ -1504,7 +1533,9 @@ function SchulteAppContent() {
                         onClick={() => saveSettingsUpdate({ ...settings, theme: th })}
                         className={`py-3.5 px-3 rounded-2xl font-bold capitalize border text-sm transition-all cursor-pointer ${
                           settings.theme === th
-                            ? 'bg-indigo-600 border-indigo-500 text-white'
+                            ? isLight
+                              ? 'bg-[#59C749] border-[#59C749] text-white shadow-md'
+                              : 'bg-indigo-600 border-indigo-500 text-white'
                             : isLight
                             ? 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-600'
                             : 'bg-slate-950 border-slate-850 hover:bg-slate-850 text-slate-400'
@@ -1522,7 +1553,7 @@ function SchulteAppContent() {
                 {/* 4. Peripheral Sound and Vibration feedback toggles */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   {/* Sound Toggle */}
-                  <div className={`flex items-center justify-between p-4.5 sm:p-5 border rounded-2xl gap-4 ${isLight ? 'bg-slate-50 border-slate-200' : 'bg-slate-950/40 border border-slate-850'}`}>
+                  <div className={`flex items-center justify-between p-5 border rounded-2xl gap-4 ${isLight ? 'bg-slate-50 border-slate-200' : 'bg-slate-950/40 border border-slate-850'}`}>
                     <div className="text-left space-y-1 flex-1 min-w-0">
                       <span className={`text-sm font-bold block leading-tight ${activeStyles.textTitle}`}>Auditory Clicks</span>
                       <p className={`text-[11px] leading-normal ${activeStyles.textMuted}`}>
@@ -1532,7 +1563,13 @@ function SchulteAppContent() {
                     <button
                       onClick={() => saveSettingsUpdate({ ...settings, soundEnabled: !settings.soundEnabled })}
                       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer flex-shrink-0 ${
-                        settings.soundEnabled ? 'bg-indigo-600' : isLight ? 'bg-slate-200' : 'bg-slate-800'
+                        settings.soundEnabled 
+                          ? isLight
+                            ? 'bg-[#59C749]'
+                            : 'bg-indigo-600'
+                          : isLight 
+                          ? 'bg-slate-200' 
+                          : 'bg-slate-800'
                       }`}
                       aria-label="Sound enabled toggle"
                     >
@@ -1545,7 +1582,7 @@ function SchulteAppContent() {
                   </div>
 
                   {/* Vibration Toggle */}
-                  <div className={`flex items-center justify-between p-4.5 sm:p-5 border rounded-2xl gap-4 ${isLight ? 'bg-slate-50 border-slate-200' : 'bg-slate-950/40 border border-slate-850'}`}>
+                  <div className={`flex items-center justify-between p-5 border rounded-2xl gap-4 ${isLight ? 'bg-slate-50 border-slate-200' : 'bg-slate-950/40 border border-slate-850'}`}>
                     <div className="text-left space-y-1 flex-1 min-w-0">
                       <span className={`text-sm font-bold block leading-tight ${activeStyles.textTitle}`}>Saccadic Vibration</span>
                       <p className={`text-[11px] leading-normal ${activeStyles.textMuted}`}>
@@ -1555,7 +1592,13 @@ function SchulteAppContent() {
                     <button
                       onClick={() => saveSettingsUpdate({ ...settings, vibrationEnabled: !settings.vibrationEnabled })}
                       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer flex-shrink-0 ${
-                        settings.vibrationEnabled ? 'bg-indigo-600' : isLight ? 'bg-slate-200' : 'bg-slate-800'
+                        settings.vibrationEnabled 
+                          ? isLight
+                            ? 'bg-[#59C749]'
+                            : 'bg-indigo-600'
+                          : isLight 
+                          ? 'bg-slate-200' 
+                          : 'bg-slate-800'
                       }`}
                       aria-label="Vibration toggle"
                     >
@@ -1579,7 +1622,7 @@ function SchulteAppContent() {
               className={`max-w-md w-full text-left rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative ${activeStyles.card}`}
             >
               <div className="text-center space-y-2">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-bold mx-auto shadow-md">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold mx-auto shadow-md ${isLight ? 'bg-[#59C749]' : 'bg-indigo-600'}`}>
                   <User className="w-6 h-6 text-white" />
                 </div>
                 <h2 className={`text-2xl font-black ${activeStyles.textTitle}`}>
@@ -1607,7 +1650,7 @@ function SchulteAppContent() {
                       placeholder="e.g. Jean Constant"
                       className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:outline-none font-medium text-sm transition ${
                         isLight 
-                          ? 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:ring-indigo-500' 
+                          ? 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:ring-[#59C749]' 
                           : 'bg-slate-950 border-slate-850 text-white placeholder-slate-600 focus:ring-indigo-650'
                       }`}
                     />
@@ -1626,7 +1669,7 @@ function SchulteAppContent() {
                     placeholder="example@focus.com"
                     className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:outline-none font-medium text-sm transition ${
                       isLight 
-                        ? 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:ring-indigo-500' 
+                        ? 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:ring-[#59C749]' 
                         : 'bg-slate-950 border-slate-850 text-white placeholder-slate-600 focus:ring-indigo-650'
                     }`}
                   />
@@ -1644,7 +1687,7 @@ function SchulteAppContent() {
                     placeholder="Enter password"
                     className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:outline-none font-medium text-sm transition ${
                       isLight 
-                        ? 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:ring-indigo-500' 
+                        ? 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:ring-[#59C749]' 
                         : 'bg-slate-950 border-slate-850 text-white placeholder-slate-600 focus:ring-indigo-650'
                     }`}
                   />
@@ -1654,7 +1697,7 @@ function SchulteAppContent() {
                 <button
                   type="submit"
                   disabled={authLoading}
-                  className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 disabled:text-slate-500 text-white font-bold rounded-xl transition duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-lg mt-2 font-semibold"
+                  className={`w-full py-4 ${isLight ? 'bg-[#59C749] hover:bg-[#4ab53b]' : 'bg-indigo-600 hover:bg-indigo-500'} disabled:bg-slate-300 disabled:text-slate-500 text-white font-bold rounded-xl transition duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-lg mt-2 font-semibold`}
                 >
                   {authLoading ? (
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -1670,7 +1713,7 @@ function SchulteAppContent() {
               <div className={`text-center border-t ${isLight ? 'border-slate-200' : 'border-slate-850'} pt-4`}>
                 <button
                   onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
-                  className="text-xs font-semibold text-indigo-500 hover:underline hover:text-indigo-600"
+                  className={`text-xs font-semibold ${isLight ? 'text-[#59C749] hover:underline hover:text-[#4ab53b]' : 'text-indigo-400 hover:underline hover:text-indigo-350'}`}
                 >
                   {authMode === 'login'
                     ? "Don't have an account yet? Register Here »"
@@ -1701,9 +1744,9 @@ function SchulteAppContent() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
           <span>🧠 Schulte Matrix Focus Applet © 2026. All rights and neurological diagnostics reserved.</span>
           <div className="flex gap-4">
-            <button onClick={() => showToast("Schulte Tables help expand effective reading fields using standard visual diagnostics.", "info")} className={`hover:underline transition ${isLight ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-400 hover:text-slate-350'}`}>Clinical Info</button>
+            <button onClick={() => showToast("Schulte Tables help expand effective reading fields using standard visual diagnostics.", "info")} className={`hover:underline transition ${isLight ? 'text-slate-600 hover:text-[#59C749]' : 'text-slate-400 hover:text-slate-350'}`}>Clinical Info</button>
             <span>•</span>
-            <button onClick={() => showToast("Offline Fallback Mode is operational. Your scores store securely in local browser caches.", "success")} className={`hover:underline transition ${isLight ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-400 hover:text-slate-350'}`}>System Status</button>
+            <button onClick={() => showToast("Offline Fallback Mode is operational. Your scores store securely in local browser caches.", "success")} className={`hover:underline transition ${isLight ? 'text-slate-600 hover:text-[#59C749]' : 'text-slate-400 hover:text-slate-350'}`}>System Status</button>
           </div>
         </div>
       </footer>
