@@ -5,7 +5,7 @@
 
 export type GameDifficulty = '3x3' | '4x4' | '5x5' | '6x6';
 export type GameMode = 'letter' | 'number' | 'reverse' | 'roman';
-export type GameTheme = 'slate' | 'nord' | 'cyber' | 'lavender';
+export type GameTheme = 'slate' | 'cyber' | 'lavender';
 export type GameThemeMode = 'light' | 'dark';
 
 export interface GameCell {

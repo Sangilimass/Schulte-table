@@ -206,22 +206,22 @@ function SchulteAppContent() {
     slate: {
       dark: {
         bg: 'bg-gradient-to-br from-[#0a0f1d] via-[#121829] to-[#0a0f1d] text-slate-100 selection:bg-indigo-500/30',
-        card: 'bg-slate-900/90 border border-slate-800/80 shadow-[0_20px_50px_rgba(0,0,0,0.35)] backdrop-blur-xl hover:border-indigo-500/20 transition-all duration-300 rounded-3xl',
+        card: 'bg-slate-900/95 border border-slate-800 shadow-md shadow-black/20 backdrop-blur-xl hover:border-indigo-500/20 transition-all duration-300 rounded-3xl',
         border: 'border-slate-800/90',
         textMuted: 'text-slate-400',
         textTitle: 'text-white font-extrabold',
         textAccent: 'text-indigo-400',
-        btnAccent: 'bg-gradient-to-r from-indigo-550 via-purple-550 to-indigo-550 bg-[size:200%_auto] hover:bg-[right_center] text-white shadow-lg shadow-indigo-600/15 focus:ring-2 focus:ring-indigo-500 hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
+        btnAccent: 'bg-gradient-to-r from-indigo-550 via-purple-550 to-indigo-550 bg-[size:200%_auto] hover:bg-[right_center] text-white shadow-md shadow-indigo-600/15 focus:ring-2 focus:ring-indigo-505 hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
         btnSecondary: 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/65 focus:ring-2 focus:ring-slate-700 hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-200',
-        gridCell: 'bg-gradient-to-b from-slate-900 to-slate-950 text-slate-100 hover:from-slate-800 hover:to-slate-900 border border-slate-800/80 hover:border-indigo-500/30 active:scale-95 shadow-md active:bg-slate-800 transition-all duration-150 relative overflow-hidden group hover:shadow-[0_0_15px_rgba(99,102,241,0.15)]',
+        gridCell: 'bg-gradient-to-b from-slate-900 to-slate-950 text-slate-100 hover:from-slate-800 hover:to-slate-900 border border-slate-800/80 hover:border-indigo-500/30 active:scale-95 shadow-sm active:bg-slate-800 transition-all duration-150 relative overflow-hidden group hover:shadow-[0_0_15px_rgba(99,102,241,0.15)]',
         navBtn: 'text-slate-400 hover:text-white transition-colors',
-        navBtnActive: 'text-indigo-400 bg-indigo-500/10 border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.1)]',
+        navBtnActive: 'text-indigo-400 bg-indigo-500/10 border border-indigo-500/30 shadow-sm',
         subCard: 'bg-slate-950/45 border border-slate-850/70 hover:border-slate-800/80 hover:bg-slate-950/60 transition-all duration-200',
         formInput: 'bg-slate-955 border border-slate-800 focus:border-indigo-505 focus:ring-1 focus:ring-indigo-505 text-white'
       },
       light: {
         bg: 'bg-gradient-to-br from-[#FFFDF1] via-white to-[#FFFDF1] text-slate-900 selection:bg-[#59C749]/20',
-        card: 'bg-white border border-slate-200/95 shadow-[0_20px_40px_rgba(89,199,73,0.025)] backdrop-blur-lg hover:border-[#59C749]/15 transition-all duration-300 rounded-3xl',
+        card: 'bg-white border border-slate-200 shadow-sm hover:border-[#59C749]/15 transition-all duration-300 rounded-3xl',
         border: 'border-slate-150',
         textMuted: 'text-slate-550',
         textTitle: 'text-slate-900 font-extrabold',
@@ -235,42 +235,10 @@ function SchulteAppContent() {
         formInput: 'bg-white border border-slate-250 focus:border-[#59C749] focus:ring-1 focus:ring-[#59C749] text-slate-900 font-medium'
       }
     },
-    nord: {
-      dark: {
-        bg: 'bg-gradient-to-br from-[#1e222b] via-[#2e3440] to-[#1e222b] text-[#d8dee9] selection:bg-[#88c0d0]/30',
-        card: 'bg-[#2e3440]/95 border border-[#3b4252]/90 shadow-[0_20px_50px_rgba(46,52,64,0.3)] backdrop-blur-xl hover:border-[#88c0d0]/20 transition-all duration-300 rounded-3xl',
-        border: 'border-[#3b4252]/90',
-        textMuted: 'text-[#9ca3af]',
-        textTitle: 'text-[#eceff4] font-extrabold',
-        textAccent: 'text-[#88c0d0]',
-        btnAccent: 'bg-gradient-to-r from-[#88c0d0] to-[#8fbcbb] text-[#2e3440] font-bold shadow-lg shadow-[#88c0d0]/10 focus:ring-2 focus:ring-[#88c0d0] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
-        btnSecondary: 'bg-[#3b4252]/95 hover:bg-[#434c5e] text-[#e5e9f0] border border-[#4c566a]/70 focus:ring-2 focus:ring-[#4c566a] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-200',
-        gridCell: 'bg-gradient-to-b from-[#2e3440] to-[#242933] text-[#e5e9f0] hover:from-[#3b4252] hover:to-[#2e3440] border border-[#3b4252]/85 hover:border-[#1abc9c]/30 active:scale-95 shadow-md active:bg-[#3b4252] transition-all duration-150 relative overflow-hidden group',
-        navBtn: 'text-[#9ca3af] hover:text-[#eceff4] transition-colors',
-        navBtnActive: 'text-[#88c0d0] bg-[#88c0d0]/10 border border-[#88c0d0]/30 shadow-sm',
-        subCard: 'bg-[#3b4252]/50 border border-[#4c566a]/80 hover:border-[#4c566a] hover:bg-[#3b4252]/75 transition-all duration-200',
-        formInput: 'bg-[#242933] border border-[#4c566a] focus:ring-[#88c0d0] focus:border-[#88c0d0] text-[#eceff4]'
-      },
-      light: {
-        bg: 'bg-gradient-to-br from-[#FFFDF1] via-white to-[#FFFDF1] text-[#2e3440] selection:bg-[#59C749]/40',
-        card: 'bg-white border border-[#FFFDF1] shadow-[0_20px_40px_rgba(89,199,73,0.03)] backdrop-blur-lg hover:border-[#59C749]/20 transition-all duration-300 rounded-3xl',
-        border: 'border-[#e5e9f0]',
-        textMuted: 'text-[#4c566a]',
-        textTitle: 'text-[#2e3440] font-bold',
-        textAccent: 'text-[#59C749]',
-        btnAccent: 'bg-[#59C749] hover:bg-[#4ab53b] text-white font-bold shadow-md shadow-[#59C749]/15 focus:ring-2 focus:ring-[#59C749] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
-        btnSecondary: 'bg-[#e5e9f0]/90 hover:bg-[#d8dee9] text-[#4c566a] border border-[#d8dee9] focus:ring-2 focus:ring-[#59C749] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-200',
-        gridCell: 'bg-gradient-to-b from-white to-[#FFFDF1] text-[#2e3440] hover:from-[#eceff4] hover:to-[#e5e9f0] border border-[#e5e9f0] hover:border-[#59C749]/50 active:scale-95 shadow-sm active:bg-[#eceff4] transition-all duration-150',
-        navBtn: 'text-[#4c566a] hover:text-[#2e3440] transition-colors',
-        navBtnActive: 'text-white bg-[#59C749] border border-[#59C749]/30 shadow-sm',
-        subCard: 'bg-[#eceff4]/60 border border-[#e5e9f0]/80 hover:border-[#e5e9f0] hover:bg-[#eceff4]/80 transition-all duration-200',
-        formInput: 'bg-white border border-[#d8dee9] focus:ring-[#59C749] text-[#2e3440]'
-      }
-    },
     cyber: {
       dark: {
         bg: 'bg-black text-[#39ff14] selection:bg-[#ff007f]/40',
-        card: 'bg-[#0f0f0f]/95 border-2 border-[#39ff14] shadow-[0_0_20px_rgba(57,255,20,0.15)] hover:shadow-[0_0_30px_rgba(57,255,20,0.25)] hover:border-[#ff007f]/50 transition-all duration-300 rounded-2xl',
+        card: 'bg-[#0f0f0f]/95 border-2 border-[#39ff14] shadow-[0_0_12px_rgba(57,255,20,0.1)] hover:border-[#ff007f]/50 transition-all duration-300 rounded-2xl',
         border: 'border-[#39ff14]/30',
         textMuted: 'text-zinc-500 font-mono text-[11px]',
         textTitle: 'text-[#39ff14] font-black uppercase tracking-wider',
@@ -302,14 +270,14 @@ function SchulteAppContent() {
     lavender: {
       dark: {
         bg: 'bg-gradient-to-br from-[#0c0819] via-[#16102c] to-[#0c0819] text-purple-100 selection:bg-purple-500/30',
-        card: 'bg-[#18112c]/90 border border-[#4c3b7a]/53 shadow-[0_20px_50px_rgba(12,8,25,0.4)] backdrop-blur-xl hover:border-purple-500/25 transition-all duration-300 rounded-3xl',
+        card: 'bg-[#18112c]/95 border border-[#4c3b7a]/53 shadow-md shadow-black/25 backdrop-blur-xl hover:border-purple-500/25 transition-all duration-300 rounded-3xl',
         border: 'border-[#2d1f44]',
         textMuted: 'text-purple-300/60',
         textTitle: 'text-white font-extrabold',
         textAccent: 'text-[#b19ffb]',
         btnAccent: 'bg-gradient-to-r from-[#b19ffb] via-fuchsia-400 to-[#b19ffb] bg-[size:200%_auto] hover:bg-[right_center] text-[#0f0b18] font-bold shadow-lg shadow-purple-650/15 focus:ring-2 focus:ring-[#b19ffb] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-300',
         btnSecondary: 'bg-[#2d1f44]/90 hover:bg-[#3d2c5c] text-purple-200 border border-[#443169]/70 focus:ring-2 focus:ring-[#443169] hover:-translate-y-0.5 active:translate-y-0 active:scale-97 transition-all duration-200',
-        gridCell: 'bg-gradient-to-b from-[#1c142e] to-[#120d1f] text-purple-150 hover:from-[#261b3d] hover:to-[#1c142e] border border-purple-800/40 hover:border-purple-400/50 active:scale-95 shadow-md active:bg-[#1a112c] transition-all duration-150 relative overflow-hidden group hover:shadow-[0_0_15px_rgba(168,85,247,0.15)]',
+        gridCell: 'bg-gradient-to-b from-[#1c142e] to-[#120d1f] text-purple-150 hover:from-[#261b3d] hover:to-[#1c142e] border border-purple-800/40 hover:border-purple-400/50 active:scale-95 shadow-sm active:bg-[#1a112c] transition-all duration-150 relative overflow-hidden group hover:shadow-[0_0_15px_rgba(168,85,247,0.15)]',
         navBtn: 'text-purple-300/60 hover:text-white transition-colors',
         navBtnActive: 'text-[#b19ffb] bg-[#b19ffb]/10 border border-[#b19ffb]/30 shadow-sm',
         subCard: 'bg-[#2d1f44]/45 border border-[#443169]/60 hover:border-[#443169] hover:bg-[#2d1f44]/70 transition-all duration-200',
@@ -317,7 +285,7 @@ function SchulteAppContent() {
       },
       light: {
         bg: 'bg-gradient-to-br from-[#FFFDF1] via-white to-[#FFFDF1] text-purple-950 selection:bg-[#59C749]/20',
-        card: 'bg-white border border-purple-200/90 shadow-[0_20px_40px_rgba(89,199,73,0.035)] backdrop-blur-lg hover:border-[#59C749]/20 transition-all duration-300 rounded-3xl',
+        card: 'bg-white border border-purple-200 shadow-sm hover:border-[#59C749]/20 transition-all duration-300 rounded-3xl',
         border: 'border-purple-150',
         textMuted: 'text-purple-650',
         textTitle: 'text-purple-950 font-bold',
@@ -331,40 +299,10 @@ function SchulteAppContent() {
         formInput: 'bg-white border border-purple-200 focus:ring-[#59C749] focus:border-[#59C749] text-purple-900'
       }
     }
-  }[settings.theme] || {
-    dark: {
-      bg: 'bg-slate-950 text-slate-100',
-      card: 'bg-slate-900 border border-slate-800',
-      border: 'border-slate-800',
-      textMuted: 'text-slate-400',
-      textTitle: 'text-white font-bold',
-      textAccent: 'text-indigo-400',
-      btnAccent: 'bg-indigo-600 hover:bg-indigo-500 text-white',
-      btnSecondary: 'bg-slate-800 text-slate-200',
-      gridCell: 'bg-slate-900 text-slate-100 hover:bg-slate-800',
-      navBtn: 'text-slate-400 hover:text-white',
-      navBtnActive: 'text-indigo-400 bg-slate-900 border border-slate-800',
-      subCard: 'bg-slate-950/40 border border-slate-800/60',
-      formInput: 'bg-slate-950 border border-slate-850 text-white'
-    },
-    light: {
-      bg: 'bg-[#FFFDF1] text-slate-900',
-      card: 'bg-white border border-slate-200',
-      border: 'border-slate-200',
-      textMuted: 'text-slate-550',
-      textTitle: 'text-slate-900',
-      textAccent: 'text-[#59C749]',
-      btnAccent: 'bg-[#59C749] hover:bg-[#4ab53b] text-white',
-      btnSecondary: 'bg-slate-100 hover:bg-slate-200 text-slate-705',
-      gridCell: 'bg-white text-slate-800 hover:bg-slate-100 border border-slate-200',
-      navBtn: 'text-slate-500 hover:text-slate-900',
-      navBtnActive: 'text-white bg-[#59C749] border border-slate-250',
-      subCard: 'bg-slate-100/60 border border-slate-200/80',
-      formInput: 'bg-slate-50 border border-slate-200 text-slate-900'
-    }
   };
 
-  const activeStyles = isLight ? themeStyles.light : themeStyles.dark;
+  const selectedTheme = themeStyles[settings.theme] || themeStyles.slate;
+  const activeStyles = isLight ? selectedTheme.light : selectedTheme.dark;
 
   const getGridDimension = (diff: GameDifficulty): number => {
     return parseInt(diff.split('x')[0]) || 5;
@@ -382,15 +320,15 @@ function SchulteAppContent() {
     }
 
     if (mode === 'letter') {
-      // Wrap characters using LETTERS array
-      const lettersLen = LETTERS.length;
-      if (val <= lettersLen) {
-        label = LETTERS[val - 1];
-      } else {
-        const primaryIdx = Math.floor((val - 1) / lettersLen) - 1;
-        const remainderIdx = (val - 1) % lettersLen;
-        label = (primaryIdx >= 0 ? LETTERS[primaryIdx] : '') + LETTERS[remainderIdx];
+      // Clean, robust Excel-style alphabetical sequence (e.g., A-Z, AA-AL...)
+      let num = val;
+      let letters = '';
+      while (num > 0) {
+        const m = (num - 1) % 26;
+        letters = String.fromCharCode(65 + m) + letters;
+        num = Math.floor((num - m) / 26);
       }
+      label = letters;
     } else if (mode === 'roman') {
       label = ROMAN_NUMERALS[(val - 1) % ROMAN_NUMERALS.length];
     }
@@ -1029,7 +967,7 @@ function SchulteAppContent() {
               </div>
 
               {/* Central Schulte Grid Canvas */}
-              <div className={`w-[92vw] max-w-[480px] aspect-square flex items-center justify-center p-2.5 sm:p-4 rounded-3xl border shadow-2xl relative select-none ${isLight ? 'bg-slate-100/50 border-slate-250' : 'bg-slate-950/80 border border-slate-800/50'}`}>
+              <div className={`w-full max-w-[460px] aspect-square flex items-center justify-center p-2.5 sm:p-4 rounded-3xl border shadow-2xl relative select-none ${isLight ? 'bg-slate-100/50 border-slate-250' : 'bg-slate-950/80 border border-slate-800/50'}`}>
                 {/* Grid cells layout */}
                 <div 
                   className="grid h-full w-full gap-2 sm:gap-3"
@@ -1176,14 +1114,14 @@ function SchulteAppContent() {
                 </motion.button>
 
                 <motion.button
-                  onClick={() => { if (gameStarted && !confirm("Are you sure you want to reset this board? Your current progress will be lost.")) { return; } startNewRound(); }}
+                  onClick={() => { if (confirm("Do you want to discard your current progress and generate a new Schulte board?")) { startNewRound(); } }}
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                   className={`flex-1 h-9 px-3.5 rounded-xl font-extrabold text-[11px] uppercase tracking-wide transition flex items-center justify-center gap-1.5 cursor-pointer ${activeStyles.btnSecondary}`}
-                  title="Reinitialize the current board"
+                  title="Discard progress and generate a new Schulte matrix board"
                   id="game-reset-mid"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" /> Reset
+                  <RotateCcw className="w-3.5 h-3.5" /> New Board
                 </motion.button>
 
                 <motion.button
@@ -1605,8 +1543,8 @@ function SchulteAppContent() {
                   <label className={`text-xs font-bold uppercase tracking-wider block ${isLight ? 'text-slate-700' : 'text-slate-355'}`}>
                     Visual Aesthetics
                   </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {(['slate', 'nord', 'cyber', 'lavender'] as GameTheme[]).map((th) => (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {(['slate', 'cyber', 'lavender'] as GameTheme[]).map((th) => (
                       <button
                         key={th}
                         onClick={() => saveSettingsUpdate({ ...settings, theme: th })}
@@ -1621,7 +1559,6 @@ function SchulteAppContent() {
                         }`}
                       >
                         {th === 'slate' && 'Slate Space'}
-                        {th === 'nord' && 'Nord Frost (Experimental)'}
                         {th === 'cyber' && 'Cyber Neon'}
                         {th === 'lavender' && 'Regal Violet'}
                       </button>
