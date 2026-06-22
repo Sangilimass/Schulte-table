@@ -29,7 +29,8 @@ import {
   TrendingUp,
   Share2,
   Sun,
-  Moon
+  Moon,
+  Printer
 } from 'lucide-react';
 import { GameDifficulty, GameMode, GameTheme, GameCell, UserSettings, GameSession, TrainingStats, UserProfile } from './types.js';
 import { ApiClient } from './lib/api.js';
@@ -107,6 +108,54 @@ function SchulteAppContent() {
 
   // Just finished round summary
   const [lastFinishedSession, setLastFinishedSession] = useState<GameSession | null>(null);
+
+  // Worksheet Print Selection configurations
+  const [printCount, setPrintCount] = useState<number>(4);
+  const [printSize, setPrintSize] = useState<GameDifficulty>('5x5');
+  const [printMode, setPrintMode] = useState<GameMode>('number');
+  const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
+  const [printSheets, setPrintSheets] = useState<Array<GameCell[][]>>([]);
+
+  const handlePrintTrigger = () => {
+    const sheetsList: Array<GameCell[][]> = [];
+    const dimension = getGridDimension(printSize);
+    const cellsCount = dimension * dimension;
+
+    for (let sheetIdx = 0; sheetIdx < printCount; sheetIdx++) {
+      const rawItems: Array<{ val: number; label: string }> = [];
+      for (let i = 0; i < cellsCount; i++) {
+        rawItems.push(getCellLabel(i, printMode, cellsCount));
+      }
+
+      // Shuffle
+      const shuffled = [...rawItems];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+
+      const initialCells: GameCell[] = shuffled.map((item, idx) => ({
+        id: `print-cell-${sheetIdx}-${idx}-${item.val}`,
+        val: item.val,
+        label: item.label,
+        tapped: false,
+        pulsing: false,
+        error: false,
+      }));
+
+      const gridRows: GameCell[][] = [];
+      for (let r = 0; r < dimension; r++) {
+        gridRows.push(initialCells.slice(r * dimension, (r + 1) * dimension));
+      }
+      sheetsList.push(gridRows);
+    }
+
+    setPrintSheets(sheetsList);
+    
+    setTimeout(() => {
+      window.print();
+    }, 150);
+  };
 
   // Bootstrap data
   useEffect(() => {
@@ -828,10 +877,19 @@ function SchulteAppContent() {
                     onClick={() => setCurrentScreen('settings')}
                     whileHover={{ scale: 1.03, y: -2 }}
                     whileTap={{ scale: 0.97 }}
-                    className={`px-6 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${activeStyles.btnSecondary}`}
+                    className={`flex-1 px-6 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${activeStyles.btnSecondary}`}
                     id="btn-prep-settings"
                   >
-                    <Sliders className={`w-4 h-4 ${isLight ? 'text-slate-600' : 'text-slate-400'}`} /> Customize Grid Matrix
+                    <Sliders className={`w-4 h-4 ${isLight ? 'text-slate-600' : 'text-slate-400'}`} /> Customize
+                  </motion.button>
+                  <motion.button
+                    onClick={() => setIsPrintModalOpen(true)}
+                    whileHover={{ scale: 1.03, y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    className={`flex-1 px-6 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${activeStyles.btnSecondary}`}
+                    id="btn-print-worksheets"
+                  >
+                    <Printer className={`w-4 h-4 ${isLight ? 'text-slate-600' : 'text-slate-400'}`} /> Print Sheets
                   </motion.button>
                 </div>
               </div>
@@ -949,8 +1007,29 @@ function SchulteAppContent() {
                 </div>
               </div>
 
+              {/* Short Peripheral Training Instruction Block */}
+              <div className={`p-4 rounded-2xl w-full text-xs text-left leading-normal border shadow-sm ${
+                isLight 
+                  ? 'bg-slate-50 border-slate-200/85 text-slate-700 shadow-slate-100/30' 
+                  : 'bg-slate-900/60 border-slate-850/80 text-slate-350 shadow-none'
+              }`}>
+                <div className="flex gap-2.5 items-start">
+                  <div className={`p-1.5 rounded-lg ${isLight ? 'bg-[#59C749]/10 text-[#4ab53b]' : 'bg-indigo-500/20 text-indigo-400'} flex-shrink-0`}>
+                    <Compass className="w-4 h-4 animate-spin-slow" />
+                  </div>
+                  <div>
+                    <h4 className={`font-extrabold mb-0.5 uppercase tracking-wide text-[10px] ${isLight ? 'text-slate-800' : 'text-slate-200'}`}>
+                      Peripheral Sight Strategy
+                    </h4>
+                    <p className="opacity-90">
+                      Keep your eyes fixed strictly on the center square of the matrix. Expand your vision outwards to scan and tap elements in chronological order (<strong>{settings.mode === 'reverse' ? 'from Max downwards' : 'A-Z, 1-25 or I-XXV'}</strong>) without shifting your central gaze.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {/* Central Schulte Grid Canvas */}
-              <div className={`w-full max-w-xl aspect-square flex items-center justify-center p-3 sm:p-4 rounded-3xl border shadow-2xl relative select-none ${isLight ? 'bg-slate-100/50 border-slate-250' : 'bg-slate-950/80 border border-slate-800/50'}`}>
+              <div className={`w-[92vw] max-w-[480px] aspect-square flex items-center justify-center p-2.5 sm:p-4 rounded-3xl border shadow-2xl relative select-none ${isLight ? 'bg-slate-100/50 border-slate-250' : 'bg-slate-950/80 border border-slate-800/50'}`}>
                 {/* Grid cells layout */}
                 <div 
                   className="grid h-full w-full gap-2 sm:gap-3"
@@ -1097,7 +1176,7 @@ function SchulteAppContent() {
                 </motion.button>
 
                 <motion.button
-                  onClick={startNewRound}
+                  onClick={() => { if (gameStarted && !confirm("Are you sure you want to reset this board? Your current progress will be lost.")) { return; } startNewRound(); }}
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                   className={`flex-1 h-9 px-3.5 rounded-xl font-extrabold text-[11px] uppercase tracking-wide transition flex items-center justify-center gap-1.5 cursor-pointer ${activeStyles.btnSecondary}`}
@@ -1510,7 +1589,7 @@ function SchulteAppContent() {
                           </span>
                           <span className={`text-[10px] block mt-0.5 opacity-90 ${activeStyles.textMuted}`}>
                             {mode === 'number' && 'Ascending values: 1, 2, 3, 4, 5...'}
-                            {mode === 'letter' && 'Alphabetical values: A, B, C, D, E...'}
+                            {mode === 'letter' && 'Alphabetical sequence: A-Z, then AA-AL for larger matrices'}
                             {mode === 'roman' && 'Roman numerals: I, II, III, IV, V...'}
                             {mode === 'reverse' && 'Sequencer clicks downwards: Max to 1'}
                           </span>
@@ -1542,7 +1621,7 @@ function SchulteAppContent() {
                         }`}
                       >
                         {th === 'slate' && 'Slate Space'}
-                        {th === 'nord' && 'Nord Frost'}
+                        {th === 'nord' && 'Nord Frost (Experimental)'}
                         {th === 'cyber' && 'Cyber Neon'}
                         {th === 'lavender' && 'Regal Violet'}
                       </button>
@@ -1750,6 +1829,200 @@ function SchulteAppContent() {
           </div>
         </div>
       </footer>
+
+      {/* Dynamic Worksheet Print Dialog Modal */}
+      <AnimatePresence>
+        {isPrintModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Background backdrop shadow */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsPrintModalOpen(false)}
+              className="absolute inset-0 bg-slate-950/60 backdrop-blur-md"
+            />
+
+            {/* Modal Card Box */}
+            <motion.div
+              initial={{ scale: 0.95, y: 15, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.95, y: 15, opacity: 0 }}
+              className={`relative max-w-md w-full rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl ${activeStyles.card} border ${activeStyles.border} overflow-hidden`}
+            >
+              <div className="text-center space-y-2">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mx-auto shadow-md ${isLight ? 'bg-[#59C749] text-white' : 'bg-indigo-650 text-white'}`}>
+                  <Printer className="w-6 h-6 text-white" />
+                </div>
+                <h3 className={`text-2xl font-black uppercase tracking-tight ${activeStyles.textTitle}`}>
+                  Worksheet Print Engine
+                </h3>
+                <p className={`text-xs ${activeStyles.textMuted}`}>
+                  Configure and generate print-ready, high-contrast Schulte training worksheets.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {/* Quantity picker */}
+                <div className="space-y-2">
+                  <label className={`text-[10px] font-bold uppercase tracking-widest block ${isLight ? 'text-slate-650' : 'text-slate-400'}`}>
+                    Number of sheets to generate
+                  </label>
+                  <div className={`flex items-center justify-between p-1.5 border rounded-xl ${isLight ? 'bg-slate-50 border-slate-200' : 'bg-slate-950 border-slate-850'}`}>
+                    <button
+                      type="button"
+                      onClick={() => setPrintCount(Math.max(1, printCount - 1))}
+                      className={`w-9 h-9 rounded-lg flex items-center justify-center transition ${isLight ? 'hover:bg-slate-200 text-slate-800' : 'hover:bg-slate-800 text-slate-205'}`}
+                    >
+                      -
+                    </button>
+                    <span className={`text-sm font-extrabold font-mono ${activeStyles.textTitle}`}>
+                      {printCount} Worksheet{printCount > 1 ? 's' : ''}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setPrintCount(Math.min(10, printCount + 1))}
+                      className={`w-9 h-9 rounded-lg flex items-center justify-center transition ${isLight ? 'hover:bg-slate-200 text-slate-800' : 'hover:bg-slate-800 text-slate-205'}`}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                {/* Sizing selection */}
+                <div className="space-y-2">
+                  <label className={`text-[10px] font-bold uppercase tracking-widest block ${isLight ? 'text-slate-650' : 'text-slate-400'}`}>
+                    Matrix size
+                  </label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {(['3x3', '4x4', '5x5', '6x6'] as GameDifficulty[]).map((sz) => (
+                      <button
+                        key={sz}
+                        type="button"
+                        onClick={() => setPrintSize(sz)}
+                        className={`py-2 px-1 rounded-xl text-center font-bold text-xs capitalize border transition cursor-pointer ${
+                          printSize === sz
+                            ? isLight
+                              ? 'bg-[#59C749] border-[#59C749] text-white shadow-sm'
+                              : 'bg-indigo-600 border-indigo-500 text-white'
+                            : isLight
+                            ? 'bg-white border-slate-200 hover:bg-slate-100 text-slate-600'
+                            : 'bg-slate-950 border-slate-850 hover:bg-slate-850 text-slate-400'
+                        }`}
+                      >
+                        {sz}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Character Format */}
+                <div className="space-y-2">
+                  <label className={`text-[10px] font-bold uppercase tracking-widest block ${isLight ? 'text-slate-650' : 'text-slate-400'}`}>
+                    Character Format Mode
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(['number', 'letter', 'roman'] as GameMode[]).map((md) => (
+                      <button
+                        key={md}
+                        type="button"
+                        onClick={() => setPrintMode(md)}
+                        className={`py-2 px-1 rounded-xl text-center font-bold text-xs capitalize border transition cursor-pointer ${
+                          printMode === md
+                            ? isLight
+                              ? 'bg-[#59C749] border-[#59C749] text-white shadow-sm'
+                              : 'bg-indigo-600 border-indigo-505 text-white shadow-md'
+                            : isLight
+                            ? 'bg-white border-slate-200 hover:bg-slate-100 text-slate-600'
+                            : 'bg-slate-950 border-slate-850 hover:bg-slate-850 text-slate-400'
+                        }`}
+                      >
+                        {md}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsPrintModalOpen(false)}
+                  className={`flex-1 py-3 px-4 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider transition border cursor-pointer border-transparent ${
+                    isLight 
+                      ? 'bg-slate-100 hover:bg-slate-200 text-slate-700' 
+                      : 'bg-slate-900 hover:bg-slate-800 text-slate-250'
+                  }`}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsPrintModalOpen(false);
+                    handlePrintTrigger();
+                  }}
+                  className={`flex-1 py-3 px-4 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider text-white shadow-md transition cursor-pointer ${
+                    isLight 
+                      ? 'bg-[#59C749] hover:bg-[#4ab53b] shadow-[#59C749]/10' 
+                      : 'bg-indigo-650 hover:bg-indigo-550 shadow-indigo-650/10'
+                  }`}
+                >
+                  Generate & Print
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Hidden print layout stylesheet area and grids */}
+      <div className="hidden print:block bg-white text-black p-4 min-h-screen font-sans">
+        <div className="max-w-3xl mx-auto text-center space-y-8">
+          <div className="border-b-2 border-black pb-4 text-center">
+            <h1 className="text-3xl font-extrabold uppercase tracking-wide">Schulte Focus Training Sheets</h1>
+            <p className="text-sm mt-1 text-zinc-650 text-slate-600">
+              Validated training diagnostics to expand peripheral field of vision and visual speed.
+            </p>
+            <p className="text-[10px] mt-1 font-mono uppercase text-zinc-500">
+              Format: {printSize} Matrix • Mode: {printMode} • Generated: {new Date().toLocaleDateString()}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 pt-4">
+            {printSheets.map((sheet, sIdx) => (
+              <div key={sIdx} className="border border-black p-6 rounded-2xl flex flex-col items-center justify-center page-break-inside-avoid">
+                <span className="text-xs font-bold uppercase tracking-widest text-zinc-600 mb-2 block">
+                  Table Matrix #{sIdx + 1}
+                </span>
+                
+                {/* Beautiful black and white matrix with borders */}
+                <div 
+                  className="grid border-2 border-black" 
+                  style={{
+                    gridTemplateColumns: `repeat(${sheet.length}, minmax(0, 1fr))`,
+                    width: '320px',
+                    height: '320px'
+                  }}
+                >
+                  {sheet.flatMap(row => row).map((cell) => (
+                    <div 
+                      key={cell.id} 
+                      className="border border-black flex items-center justify-center font-extrabold text-2xl bg-white text-black h-full w-full select-none"
+                    >
+                      {cell.label}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-3 text-[10px] text-zinc-500 font-medium">
+                  Fixate on the center. Trace cells in ascending order.
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
